@@ -2,11 +2,9 @@
 
 void	irc(int ac, char **av) {
 	if (ac == 3) {
-		Server serv;
+		// Server serv;
 		try {
-			Server tmp(av[2], av[1]);;
-			serv = tmp;
-			// tcp(serv);
+			Server serv(av[2], av[1]);;
 			serv.start();
 		}
 		catch (std::exception & ex) {

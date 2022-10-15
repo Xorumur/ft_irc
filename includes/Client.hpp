@@ -67,4 +67,6 @@ class Client {
 		void	setPwd(std::string name) {
 			_password = name;
 		}
+
+		
 };

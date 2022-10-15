@@ -26,7 +26,16 @@ class parse {
 			}
 		}
 
-		void	exec(Server * serv) {
-			if (tab[0].find("CAP LS ") == std::string::npos)
-		}
+		// void	exec(Server & serv, Client * Client) {
+		// 	std::string delim(" ");
+		// 	for (size_t i = 0; i < tab.size(); i++) {
+		// 		std::vector<std::string> line = split(tab[i], delim);
+		// 		if (line[0] == "NICK")
+		// 			cmdNick();
+		// 		else if (line[0] == "USER")
+		// 			cmdUser();
+		// 		else if (line[0] == "PASS")
+		// 			cmdPass();
+		// 	}
+		// }
 };
