@@ -161,30 +161,13 @@ class	Server {
 				//add master socket to set 
 				FD_SET(sfd, &readfds);  
 				max_sd = sfd;  
-				//add child sockets to set 
-				// for ( i = 0 ; i < max_clients ; i++)  
-				// {  
-				// 	//socket descriptor 
-				// 	sd = client_socket[i];  
-						
-				// 	//if valid socket descriptor then add to read list 
-				// 	if(sd > 0)  
-				// 		FD_SET( sd , &readfds);  
-						
-				// 	//highest file descriptor number, need it for the select function 
-				// 	if(sd > max_sd)  
-				// 		max_sd = sd;  
-				// } 
-
 				for (size_t i = 0; i < user.size(); i++) {
 					sd = user[i]->getFd();
-					std::cout << "test" << std::endl;
 					if (sd > 0)
 						FD_SET(sd, &readfds);
 					if (sd > max_sd)
 						max_sd = sd;
 				}
-				std::cout << "Max_sd = " << max_sd << std::endl;
 				//wait for an activity on one of the sockets , timeout is NULL , 
 				//so wait indefinitely
 				activity = select( max_sd + 1 , &readfds , NULL , NULL , NULL);  
