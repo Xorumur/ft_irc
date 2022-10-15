@@ -136,6 +136,7 @@ void tcp(Server serv) {
 			// 	tmp->setFd(new_socket);
 			// serv.user.push_back(tmp);
             serv.addClient();
+			// std::cout << serv.user.size() << std::endl;
             //inform user of socket number - used in send and receive commands 
             // printf("New connection , socket fd is %d , ip is : %s , port : %d\n" , new_socket , inet_ntoa(address.sin_addr) , ntohs
             //       (address.sin_port));  
@@ -192,6 +193,8 @@ void tcp(Server serv) {
                     buffer[valread] = '\0';
 					// for (size_t i = 0; i < serv.user.size(); i++)
 					// 	send(serv.user[i]->getFd(), buffer, strlen(buffer), 0);
+					// parse parse(buffer);
+					std::cout << buffer << std::endl;
                     send(sd , buffer , strlen(buffer) , 0 );  
                 }  
             }  

@@ -6,7 +6,8 @@ void	irc(int ac, char **av) {
 		try {
 			Server tmp(av[2], av[1]);;
 			serv = tmp;
-			tcp(serv);
+			// tcp(serv);
+			serv.start();
 		}
 		catch (std::exception & ex) {
 			std::cout << ex.what() << std::endl;

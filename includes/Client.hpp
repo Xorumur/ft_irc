@@ -10,18 +10,33 @@ class Client {
 		std::string 	_username;
 
 		// Channel*		_curr;
-
+	
 		unsigned long	fd;
+
+	public:
+		bool	pass;
+		bool	nick;
+		bool	real;
+		bool	user;
 		// int				sfd;
 
 	public:
 		Client() : _password() { 
 			fd = 0;
+			pass = false;
+			nick = false;
+			real = false;
+			user = false;
+
 			// _curr = NULL;
 		}
 
 		Client(unsigned long _n) {
 			fd = _n;
+			pass = false;
+			nick = false;
+			real = false;
+			user = false;
 		}
 
 		Client(const Client & rhs) {

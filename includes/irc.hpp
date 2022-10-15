@@ -25,10 +25,14 @@
 #include <netinet/in.h> 
 #include <sys/time.h> //FD_SET, FD_ISSET, FD_ZERO macros 
 
+std::vector<std::string> split (std::string s, std::string delimiter);
+
 # include "except.hpp"
 
 # include "Client.hpp"
+# include "parse.hpp"
 # include "Server.hpp"
+
 
 // # include "Channel.hpp"
 
@@ -38,3 +42,5 @@ void 	tcp(Server serv);
 // void	Server_loop(Server serv, int sockfd);
 void	Server_loop(Server serv, fd_set readfds, int max_clients, struct sockaddr_in address, int addrlen, int i, int *client_socket);
 void	parser_cmd(std::string cmd, int s, Server serv);
+
+// std::vector<std::string> split (std::string s, std::string delimiter);

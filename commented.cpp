@@ -1,94 +1,4 @@
-#pragma once 
-
-# include "irc.hpp"
-
-#define TRUE   1 
-#define FALSE  0 
-#define SA struct sockaddr
-#define MAX 80
-
-class ErrorInPort : public std::exception {
-	public:
-		virtual const char* what() const throw()	
-		{
-			return ("Not a valable number for the Port between [0; 65,353]");
-		}
-};
-
-class ErrorInPortInput : public std::exception {
-	public:
-		virtual const char* what() const throw()	
-		{
-			return ("Port must contain only digit");
-		}
-};
-
-class	Server {
-	private:
-		std::string 			_password;
-		int						_port;
-		
-		// int					_id;
-	public:
-		std::vector<Client *>	user;
-		int						sfd;
-		int						fresh_fd;
-	public:
-		Server() {} 
-
-		Server(char *pwd, char *New_p) : _password(pwd) {
-			std::string parse(New_p);
-
-			for (size_t i = 0; i < parse.length(); i++) {
-				if (!isdigit(parse[i]))
-					throw ErrorInPortInput();
-			}
-			_port = atoi(New_p);
-			if (_port < 0 || _port > 65535)
-				throw ErrorInPort();
-		}
-
-		Server(const Server & rhs) {
-			_port = rhs.getPort();
-			_password = rhs.getPassword();
-		}
-		
-		~Server() { }
-
-		std::string getPassword(void) const {
-			return (_password);
-		}
-
-		int	getPort(void) const {
-			return (_port);
-		}
-
-		void	setPort(int port) {
-			_port = port;
-		}
-
-		void	setPassword(std::string pass) {
-			_password = pass;
-		}
-
-		void	addClient(void) {
-			struct sockaddr_in address;
-			int new_socket;
-			int addrlen = sizeof(address);
-
-			Client	*tmp = new Client;
-            if ((new_socket = accept(sfd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0)  
-				throw AcceptFailed();
-			else
-				tmp->setFd(new_socket);
-			this->user.push_back(tmp);
-			// std::cout << "New size = " << this->user.size() << std::endl;
-			printf("New connection , socket fd is %d , ip is : %s , port : %d\n" , new_socket , inet_ntoa(address.sin_addr) , ntohs
-                   (address.sin_port));
-			fresh_fd = new_socket;
-		}
-
-		void	start(void) {
+void	start(void) {
 			int opt = TRUE;  
     int addrlen , client_socket[30] , 
           max_clients = 30 , i;  
@@ -167,7 +77,7 @@ class	Server {
             //highest file descriptor number, need it for the select function 
             if(sd > max_sd)  
                 max_sd = sd;  
-        }  
+        }  3
      
         //wait for an activity on one of the sockets , timeout is NULL , 
         //so wait indefinitely
@@ -243,9 +153,6 @@ class	Server {
                     buffer[valread] = '\0';
 					// for (size_t i = 0; i < serv.user.size(); i++)
 					// 	send(serv.user[i]->getFd(), buffer, strlen(buffer), 0);
-					parse parse(buffer);
-					// parse.exec(*this);
-					// std::cout << buffer << "    |" << std::endl;
                     send(sd , buffer , strlen(buffer) , 0 );  
                 }  
             }  
@@ -254,16 +161,3 @@ class	Server {
          
     return ;
 		}
-
-
-		Client * findClientByFd(unsigned long s) {
-			std::cout << "SIZE = " << this->user.size() << std::endl;
-			for (size_t i = 0; i < user.size(); i++) {
-				std::cout << s << " : " << user[i]->getFd() << std::endl;
-				if (user[i]->getFd() == s)
-					return (user[i]);
-			}
-			return (NULL);
-		}
-};
-
