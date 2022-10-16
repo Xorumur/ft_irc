@@ -8,7 +8,8 @@ class Client {
 		std::string		_nickname;
 		std::string 	_realname;
 		std::string 	_username;
-
+		
+		// char			mode;
 		// Channel*		_curr;
 	
 		unsigned long	fd;

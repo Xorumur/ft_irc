@@ -10,5 +10,9 @@ class Channel {
 	public:
 		Channel() { }
 
-		Channel()
+		// void	sendToMembers(std::string msg) {
+		// 	for (size_t i = 0; i < members.size(); i++) {
+				
+		// 	}
+		// }
 };

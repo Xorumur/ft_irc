@@ -153,6 +153,8 @@ class	Server {
 				FD_ZERO(&readfds);  
 				FD_SET(sfd, &readfds);  
 				max_sd = sfd;  
+
+				// Set the FD with the function
 				for (size_t i = 0; i < user.size(); i++) {
 					sd = user[i]->getFd();
 					if (sd > 0)
@@ -160,14 +162,18 @@ class	Server {
 					if (sd > max_sd)
 						max_sd = sd;
 				}
+				// select wait for an event
 				activity = select( max_sd + 1 , &readfds , NULL , NULL , NULL);  
 				if ((activity < 0) && (errno!=EINTR))  
 					throw SelectFailed();
 				if (FD_ISSET(sfd, &readfds))  
 					addClient();
 				for (size_t i = 0; i < user.size(); i++) {
+					// get the fd of the client
 					sd = user[i]->getFd();
+					// Check if an event has occured on this fd
 					if (FD_ISSET(sd, &readfds)) {
+						// recv is the same as read
 						if ((valread = recv(sd, buffer, 1024, 0)) == 0)
 						{  
 							getpeername(sd , (struct sockaddr*)&address , \
@@ -176,6 +182,7 @@ class	Server {
 								inet_ntoa(address.sin_addr) , ntohs(address.sin_port));  
 							
 							close( sd ); 
+							// Function to erase the cliet within the private attributs user 
 							deleteClient(sd);
 							client_socket[i] = 0;  
 						}
@@ -189,6 +196,7 @@ class	Server {
 						}
 					}
 				}  	
+				// Display the number of client that have set their nick/user/pass
 				displayNbOfClient();
 				std::cout << "There is " << user.size() << " client link to the server" << std::endl;
 			}

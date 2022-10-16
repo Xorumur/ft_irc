@@ -52,6 +52,12 @@ class parse {
 				}
 				else if (line[0] == "PASS")
 					cmdPass(line[1], serv, Client);
+				// else if (line[0] == "MODE") {
+				// 	cmdMode(serv, client, line);
+				// }
+				// else if (line[0] == "QUIT" && line.size() > 1) {
+				// 	cmdQuit(serv, client);
+				// }
 			}
 		}
 };
