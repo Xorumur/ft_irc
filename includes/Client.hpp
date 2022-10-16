@@ -18,6 +18,7 @@ class Client {
 		bool	nick;
 		bool	real;
 		bool	user;
+		bool	accepted; // Check if the user is accepted by the server
 		// int				sfd;
 
 	public:
@@ -27,6 +28,7 @@ class Client {
 			nick = false;
 			real = false;
 			user = false;
+			accepted = false;
 
 			// _curr = NULL;
 		}
@@ -37,6 +39,7 @@ class Client {
 			nick = false;
 			real = false;
 			user = false;
+			accepted = false;
 		}
 
 		Client(const Client & rhs) {
@@ -68,5 +71,23 @@ class Client {
 			_password = name;
 		}
 
+		std::string getNick(void) {
+			return (_nickname);
+		}
+
+		void	setNick(std::string nick) {
+			_nickname = nick;
+		}
+
+		std::string getUser(void) {
+			return (_username);
+		}
 		
+		void	setUser(std::string user) {
+			_username = user;
+		}
+
+		void	setReal(std::string real) {
+			_realname = real;
+		}
 };

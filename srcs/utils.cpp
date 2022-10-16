@@ -1,9 +1,5 @@
 #include "../includes/irc.hpp"
 
-// PASSWORD
-// NICKNAME
-// USERNAME
-
 std::vector<std::string> split (std::string s, std::string delimiter) {
     size_t pos_start = 0, pos_end, delim_len = delimiter.length();
     std::string token;
@@ -15,31 +11,16 @@ std::vector<std::string> split (std::string s, std::string delimiter) {
         res.push_back (token);
     }
 
-    // res.push_back (s.substr (pos_start));
+    res.push_back (s.substr (pos_start));
     return res;
 }
 
-// std::vector<std::string> split(std::string name, std::string delim) {
-// 	std::vector<std::string>	ret;
-
-// 	for (size_t i = 0; name.find(delim) != std::string::npos; ) {
-		
-// 	}
-// }
-
-// void	parser_cmd(std::string cmd, int s, Server serv) {
-// 	// char	**tab = str.strtok
-// 	(void)s;
-// 	Client *tmp = serv.findClientByFd(s);
-// 	if (tmp == NULL)
-// 	{
-// 		std::cout << "NULL" << std::endl;
-// 		return ;
-// 	}
-// 	if (cmd.find("PASS") == 0 && tmp->getPwd().empty() == 0)
-// 	{
-// 		// std::string pass = cmd.substr(5, cmd.find(" "));
-// 		// std::cout << pass << std::endl;
-// 		tmp->setPwd(cmd.substr(5, cmd.find(" ")));
-// 	}
-// }
+void	is_Accepted(Client * client) {
+	if (client->nick == true && client->pass == true && client->user == true) {
+		std::string Welcome;
+		client->accepted = true;
+		Welcome = "42.Mathieu.com 001 " + client->getNick() + " :Welcome to the Internet Relay Network " + client->getNick() + "!" + client->getUser() + "@127.0.0.1";
+		send(client->getFd(), Welcome.c_str(), strlen(Welcome.c_str()), 0); 
+	}
+	return ;
+}

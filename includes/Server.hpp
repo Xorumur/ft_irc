@@ -23,6 +23,9 @@ class ErrorInPortInput : public std::exception {
 		}
 };
 
+#include "parse.hpp"
+class parse;
+
 class	Server {
 	private:
 		std::string 			_password;
@@ -100,15 +103,10 @@ class	Server {
 			int opt = TRUE;  
    			int addrlen , client_socket[30] , max_clients = 30 , i;  
     		struct sockaddr_in address;  
-         
-			// char buffer[1025];  //data buffer of 1K 
 				
 			//set of socket descriptors 
 			fd_set readfds;  
-				
-			//a message 
-			// char *message = "ECHO Daemon v1.0 \r\n";  
-			
+							
 			//initialise all client_socket[] to 0 so not checked 
 			for (i = 0; i < max_clients; i++)  
 			{  
@@ -142,23 +140,17 @@ class	Server {
 			//accept the incoming connection 
 			addrlen = sizeof(address);  
 			puts("Waiting for connections ...");  
-		// 	Server_loop(serv, readfds, max_clients, address, addrlen, i, client_socket);
-		// }
-		// 	// FIN TCP
+		
+		// FIN TCP
 
-		// void	Server_loop(Server serv, fd_set readfds, int max_clients, struct sockaddr_in address, int addrlen, int i, int *client_socket)
-		// {
 			char buffer[1025];
 			int valread;
 			int max_sd;
 			int sd;
 			int activity;
-			// int new_socket;
 			while(42)  
 			{  
-				//clear the socket set 
 				FD_ZERO(&readfds);  
-				//add master socket to set 
 				FD_SET(sfd, &readfds);  
 				max_sd = sfd;  
 				for (size_t i = 0; i < user.size(); i++) {
@@ -168,48 +160,49 @@ class	Server {
 					if (sd > max_sd)
 						max_sd = sd;
 				}
-				//wait for an activity on one of the sockets , timeout is NULL , 
-				//so wait indefinitely
 				activity = select( max_sd + 1 , &readfds , NULL , NULL , NULL);  
 				if ((activity < 0) && (errno!=EINTR))  
 					throw SelectFailed();
-					
-				//If something happened on the master socket , 
-				//then its an incoming connection 
 				if (FD_ISSET(sfd, &readfds))  
 					addClient();
 				for (size_t i = 0; i < user.size(); i++) {
 					sd = user[i]->getFd();
-					// std::cout << "SD : " << sd << std::endl;
 					if (FD_ISSET(sd, &readfds)) {
-						// std::cout << "ici" << std::endl;
 						if ((valread = recv(sd, buffer, 1024, 0)) == 0)
 						{  
-							//Somebody disconnected , get his details and print 
 							getpeername(sd , (struct sockaddr*)&address , \
 								(socklen_t*)&addrlen);  
 							printf("Host disconnected , ip %s , port %d \n" , 
 								inet_ntoa(address.sin_addr) , ntohs(address.sin_port));  
 							
-							//Close the socket and mark as 0 in list for reuse 
 							close( sd ); 
 							deleteClient(sd);
 							client_socket[i] = 0;  
 						}
 			
 						else {
-							// std::cout << "la" << std::endl;
 							buffer[valread] = '\0';
 							std::cout << buffer << std::endl;
-							// parse parse(buffer);
-							send(sd, buffer, strlen(buffer), 0);
+							parse Parser(buffer);
+							Parser.to_register(*this, user[i]);
+							// send(sd, buffer, strlen(buffer), 0);
 						}
 					}
-				}  		
+				}  	
+				displayNbOfClient();
+				std::cout << "There is " << user.size() << " client link to the server" << std::endl;
 			}
 			return ;
 		}
 
+		void displayNbOfClient(void) {
+			int connected = 0;
+			for (size_t i = 0; i < user.size(); i++) {
+				if (user[i]->accepted == true)
+					connected++;
+			}
+			std::cout << "There is a total of : " << connected << " client connected on the server" << std::endl;
+		}
 
 		Client * findClientByFd(unsigned long s) {
 			std::cout << "SIZE = " << this->user.size() << std::endl;

@@ -8,6 +8,9 @@ SRCS =		main.cpp \
 			srcs/irc.cpp \
 			srcs/server.cpp \
 			srcs/utils.cpp \
+			commands/pass.cpp \
+			commands/nick.cpp \
+			commands/user.cpp \
 
 OBJS =		$(SRCS:.cpp=.o)
 
