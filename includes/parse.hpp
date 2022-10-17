@@ -52,6 +52,10 @@ class parse {
 				}
 				else if (line[0] == "PASS")
 					cmdPass(line[1], serv, Client);
+				else if (line[0] == "PING" && line.size() == 2) {
+					std::string	to_send = "PONG " + line[1];
+					send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0); 
+				}
 				// else if (line[0] == "MODE") {
 				// 	cmdMode(serv, client, line);
 				// }
