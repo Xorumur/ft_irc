@@ -34,7 +34,7 @@ class	Server {
 		// int					_id;
 	public:
 		std::vector<Client *>	user;
-		std::vector<Channel *>	Channel;
+		std::vector<Channel *>	Chan;
 		int						sfd;
 		int						fresh_fd;
 	public:
@@ -220,6 +220,16 @@ class	Server {
 				std::cout << s << " : " << user[i]->getFd() << std::endl;
 				if (user[i]->getFd() == s)
 					return (user[i]);
+			}
+			return (NULL);
+		}
+
+		/* Channel Section */
+
+		Channel* findChannelByName(std::string _name) {
+			for (size_t i = 0; i < Chan.size(); i++) {
+				if (Chan[i]->getName() == _name)
+					return (Chan[i]);
 			}
 			return (NULL);
 		}
