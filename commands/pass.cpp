@@ -10,6 +10,8 @@ void	cmdPass(std::string pass, Server & serv, Client * client) {
 	else if (pass != serv.getPassword() && client->pass == true) {
 		client->pass = false;
 		client->setPwd(pass);
+		if (client->accepted == true)
+			client->accepted = false;
 	}
 	is_Accepted(client);
 	return ;

@@ -1,16 +1,15 @@
 #include "../includes/irc.hpp"
 
 #define VE_NMP "461"
-#define VERR_NEEDMOREPARAMS " :Not enough parameters"
+#define VERR_NEEDMOREPARAMS " :Not enough parameters\r\n"
 
 #define VE_UDM "502"
-#define VERR_USERSDONTMATCH " :cannot change mode for other users"
+#define VERR_USERSDONTMATCH " :cannot change mode for other users\r\n"
 
 #define VE_MUF "501"
-#define VERR_UMODEUNKNOWNFLAG " :Unknown MODE flag"
+#define VERR_UMODEUNKNOWNFLAG " :Unknown MODE flag\r\n"
 
 void	cmdMode(Server & serv, Client * client, std::vector<std::string> line) {
-	// ERR_NEEDMOREPARAMS
 	std::string errMsg;
 
 	if (line.size() == 2 || line.size() == 1) {

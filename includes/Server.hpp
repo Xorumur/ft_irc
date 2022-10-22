@@ -11,7 +11,7 @@ class ErrorInPort : public std::exception {
 	public:
 		virtual const char* what() const throw()	
 		{
-			return ("Not a valable number for the Port between [0; 65,353]");
+			return ("Not a valable number for the Port between [0; 65,535]");
 		}
 };
 
@@ -163,7 +163,7 @@ class	Server {
 						max_sd = sd;
 				}
 				// select wait for an event
-				activity = select( max_sd + 1 , &readfds , NULL , NULL , NULL);  
+				activity = select( max_sd + 1 , &readfds , NULL , NULL , NULL);
 				if ((activity < 0) && (errno!=EINTR))  
 					throw SelectFailed();
 				if (FD_ISSET(sfd, &readfds))  
@@ -182,7 +182,7 @@ class	Server {
 								inet_ntoa(address.sin_addr) , ntohs(address.sin_port));  
 							
 							close( sd ); 
-							// Function to erase the cliet within the private attributs user 
+							// Function to erase the client within the private attributs user 
 							deleteClient(sd);
 							client_socket[i] = 0;  
 						}
@@ -193,6 +193,7 @@ class	Server {
 							parse Parser(buffer);
 							Parser.to_register(*this, user[i]);
 							// send(sd, buffer, strlen(buffer), 0);
+							// Parser.exec();
 						}
 					}
 				}  	

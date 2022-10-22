@@ -7,6 +7,7 @@ class Channel {
 		int	_port;
 
 		std::vector<Client *> members;
+		std::vector<Client *> superUser;
 	public:
 		Channel() { }
 

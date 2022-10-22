@@ -41,19 +41,20 @@ class parse {
 				if (line[0] == "NICK" && line.size() == 2)
 					cmdNick(serv, Client, line[1]);
 				else if (line[0] == "NICK" && line.size() == 1) {
-					std::string to_send = "431 " + Client->getNick() + " :No nickname given";
+					std::string to_send = "431 " + Client->getNick() + " :No nickname given\r\n";
 					send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0);
 				}	
 				else if (line[0] == "USER" && line.size() >= 5)
 					cmdUser(Client, line);
 				else if (line[0] == "USER" && line.size() <= 5) {
-					std::string to_send = "461 USER :Not enough parameters";
+					std::string to_send = "461 USER :Not enough parameters\r\n";
 					send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0); 
 				}
 				else if (line[0] == "PASS")
 					cmdPass(line[1], serv, Client);
 				else if (line[0] == "PING" && line.size() == 2) {
-					std::string	to_send = "PONG " + line[1];
+					std::string	to_send = "PONG :" + line[1] + "\r\n";
+					std::cout << "This is what I send to the PONG command : " << to_send << std::endl; 
 					send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0); 
 				}
 				// else if (line[0] == "MODE") {
