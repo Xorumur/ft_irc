@@ -2,6 +2,8 @@
 
 #include "irc.hpp"
 
+class Channel;
+
 class Client {
 	private:
 		std::string		_password;
@@ -10,7 +12,7 @@ class Client {
 		std::string 	_username;
 		
 		// char			mode;
-		// Channel*		_curr;
+		Channel*		_curr;
 	
 		unsigned long	fd;
 
@@ -31,7 +33,7 @@ class Client {
 			user = false;
 			accepted = false;
 
-			// _curr = NULL;
+			_curr = NULL;
 		}
 
 		Client(unsigned long _n) {
@@ -46,6 +48,8 @@ class Client {
 		Client(const Client & rhs) {
 			*this = rhs;
 		}
+
+		~Client() { }
 
 		Client & operator=(const Client & rhs) {
 			_nickname = rhs._nickname;

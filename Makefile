@@ -11,6 +11,7 @@ SRCS =		main.cpp \
 			commands/pass.cpp \
 			commands/nick.cpp \
 			commands/user.cpp \
+			commands/mode.cpp  
 
 OBJS =		$(SRCS:.cpp=.o)
 

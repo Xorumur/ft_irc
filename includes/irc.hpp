@@ -34,12 +34,13 @@ class	Server;
 class	Client;
 class	Server;
 
+void	cmdMode(Server & serv, Client * client, std::vector<std::string> line);
 void	cmdPass(std::string pass, Server & serv, Client * client);
 void	cmdNick(Server & serv, Client * client, std::string nick);
 void	cmdUser(Client * client, std::vector<std::string> line);
 
 # include "Client.hpp"
-
+# include "Channel.hpp"
 # include "Server.hpp"
 /* Commands */
 
@@ -49,7 +50,7 @@ void	cmdUser(Client * client, std::vector<std::string> line);
 
 
 
-// # include "Channel.hpp"
+
 
 
 void	irc(int ac, char **av);

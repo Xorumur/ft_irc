@@ -34,6 +34,7 @@ class	Server {
 		// int					_id;
 	public:
 		std::vector<Client *>	user;
+		std::vector<Channel *>	Channel;
 		int						sfd;
 		int						fresh_fd;
 	public:

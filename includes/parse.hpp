@@ -57,9 +57,9 @@ class parse {
 					std::cout << "This is what I send to the PONG command : " << to_send << std::endl; 
 					send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0); 
 				}
-				// else if (line[0] == "MODE") {
-				// 	cmdMode(serv, client, line);
-				// }
+				else if (line[0] == "MODE") {
+					cmdMode(serv, Client, line);
+				}
 				// else if (line[0] == "QUIT" && line.size() > 1) {
 				// 	cmdQuit(serv, client);
 				// }
