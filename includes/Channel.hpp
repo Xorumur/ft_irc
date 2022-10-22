@@ -6,14 +6,17 @@ class Channel {
 	private:
 		// int	_port;
 		std::string name;
+		std::string password;
 	public:
-		std::vector<Client *> members;
-		std::vector<Client *> superUser;
+		bool					pass;
+		std::vector<Client *>	members;
+		std::vector<Client *>	superUser;
 	public:
 		Channel() { }
 		Channel(char* _name) { 
 			std::string tmp(_name);
 			name = tmp;
+			pass = false;
 		}
 		// Channel(std::string _name, Client * super) : name(_name) { 
 		// 	superUser.push_back(super);
@@ -27,6 +30,15 @@ class Channel {
 		std::string getName() {
 			return (name);
 		}
+
+		void	setPass(std::string _pass) {
+			password = _pass;
+		}
+
+		std::string	getPass(void) {
+			return (password);
+		}
+
 		// void	sendToMembers(std::string msg) {
 		// 	for (size_t i = 0; i < members.size(); i++) {
 				

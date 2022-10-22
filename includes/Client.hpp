@@ -95,4 +95,16 @@ class Client {
 		void	setReal(std::string real) {
 			_realname = real;
 		}
+
+		Channel*	getCurr(void) {
+			return (_curr);
+		}
+		
+		void	setCurrChannel(Channel * set) {
+			_curr = set;
+		}
+
+		void	setCurrChannelNull(void) {
+			_curr = NULL;
+		}
 };

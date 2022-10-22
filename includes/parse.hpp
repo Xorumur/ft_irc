@@ -60,6 +60,8 @@ class parse {
 				else if (line[0] == "MODE") {
 					cmdMode(serv, Client, line);
 				}
+				else if (line[0] == "JOIN")
+					cmdJoin(serv, Client, line);
 				// else if (line[0] == "QUIT" && line.size() > 1) {
 				// 	cmdQuit(serv, client);
 				// }

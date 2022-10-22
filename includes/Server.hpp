@@ -226,12 +226,42 @@ class	Server {
 
 		/* Channel Section */
 
-		Channel* findChannelByName(std::string _name) {
+		Channel*	findChannelByName(std::string _name) {
 			for (size_t i = 0; i < Chan.size(); i++) {
 				if (Chan[i]->getName() == _name)
 					return (Chan[i]);
 			}
 			return (NULL);
+		}
+
+		/* This function serve to erase a client from the list of clients that a channel have.
+		   If the client is the operators of the channel, it erases the channel form the list of
+		   channel that the server have */
+		void	delClientFromChann(Client * client, Channel * channel, Server & serv) {
+			std::vector<Client *>::iterator	it = channel->members.begin();
+			for (size_t i = 0; i < channel->members.size(); i++, it++) {
+				if (channel->members[i]->getNick() == client->getNick()) {
+					channel->members.erase(it);
+					return ;
+				}
+				else if (channel->superUser[i]->getNick() == client->getNick()) {
+					std::vector<Channel *>::iterator	ite = serv.Chan.begin();
+					for (size_t i = 0; i < serv.Chan.size(); i++, ite++) {
+						if (channel->getName() == serv.Chan[i]->getName()) {
+							eraseAllClient(channel);
+							serv.Chan.erase(ite);
+							return ;
+						}
+					}
+				}
+			}
+		}
+
+		void	eraseAllClient(Channel * channel) {
+			for (size_t i = 0; i < channel->members.size(); i++) {
+				if (channel->members[i]->getCurr() == channel)
+					channel->members[i]->setCurrChannelNull();
+			}
 		}
 };
 
