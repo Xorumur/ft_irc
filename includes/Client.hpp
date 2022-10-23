@@ -6,6 +6,7 @@ class Channel;
 
 class Client {
 	private:
+			/* Client Info */
 		std::string		_password;
 		std::string		_nickname;
 		std::string 	_realname;
@@ -13,14 +14,20 @@ class Client {
 		
 		// char			mode;
 		Channel*		_curr;
-	
+
+		/* The fd where the client send his socket and where I received it */
 		unsigned long	fd;
 
 	public:
+		/* This bools consists that it turn true when the client send one of these info
+			so I know that this info have been set so when all of these turn true, 
+			I accept the client in the server */
 		bool	pass;
 		bool	nick;
 		bool	real;
 		bool	user;
+
+
 		bool	accepted; // Check if the user is accepted by the server
 		// int				sfd;
 
