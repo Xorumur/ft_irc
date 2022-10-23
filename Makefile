@@ -6,7 +6,6 @@ CXXFLAGS =	-Wall -Wextra -Werror -std=c++98 -g -fsanitize=address
 
 SRCS =		main.cpp \
 			srcs/irc.cpp \
-			srcs/server.cpp \
 			srcs/utils.cpp \
 			commands/pass.cpp \
 			commands/nick.cpp \
