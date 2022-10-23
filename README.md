@@ -1,3 +1,3 @@
 # ft_irc
 
-A simple irc server :)ßßß
+A simple irc server :)
