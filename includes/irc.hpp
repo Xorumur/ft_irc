@@ -35,7 +35,7 @@ class	Server;
 void	cmdMode(Server & serv, Client * client, std::vector<std::string> line);
 void	cmdPass(std::string pass, Server & serv, Client * client);
 void	cmdNick(Server & serv, Client * client, std::string nick);
-void	cmdUser(Client * client, std::vector<std::string> line);
+void	cmdUser(Server & serv, Client * client, std::vector<std::string> line);
 void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd);
 void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line);
 

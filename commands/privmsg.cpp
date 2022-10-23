@@ -12,6 +12,7 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 		Channel *to_send = serv.findChannelByName(Chann);
 		std::cout << "Want to chat in the " << to_send->getName() << " channel" << std::endl;
 		bool testClient = serv.clientExist(line[1]);
+		std::cout << testClient << std::endl;
 		if (!to_send && testClient == false) {
 			/* If the channel where the client want to send his message does not exists */
 			errMsg = "404 " + Chann + " :No such nick/channel\r\n";
@@ -46,7 +47,7 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 			return ;
 		}
 		else {
-			std::string msg = client->getNick() + "!" + client->getUser() + "@127.0.0.1 PRIVMSG #" + line[1] + " :";
+			std::string msg = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 PRIVMSG #" + line[1] + " :";
 
 			msg += &line[2][1]; // Message
 			if (line.size() > 3)

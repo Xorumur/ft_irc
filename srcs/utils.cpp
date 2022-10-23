@@ -40,3 +40,11 @@ void	sendToChannel(std::string msg, Channel * chan, Client * client, bool himsel
 			send(chan->members[i]->getFd(), msg.c_str(), msg.size(), 0);
 	}
 }
+
+/* Functions that helps to display the error message with the strict format to send */
+void	send_error_code(unsigned int fd, std::string error_code, std::string nickname, std::string arg, std::string error_msg)
+{
+	std::string		msg;
+	msg = ":NiceIRC " + error_code + " " + nickname + " " + arg + " " + error_msg + "\r\n";
+	send(fd, msg.c_str(), msg.length(), 0);
+}

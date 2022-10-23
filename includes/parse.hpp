@@ -45,7 +45,7 @@ class parse {
 					send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0);
 				}	
 				else if (line[0] == "USER" && line.size() >= 5)
-					cmdUser(Client, line);
+					cmdUser(serv, Client, line);
 				else if (line[0] == "USER" && line.size() <= 5) {
 					std::string to_send = "461 USER :Not enough parameters\r\n";
 					send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0); 
