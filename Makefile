@@ -1,4 +1,4 @@
-NAME =		ft_irc
+NAME =		irc
 
 CXX =		clang++
 
