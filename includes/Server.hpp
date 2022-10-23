@@ -193,6 +193,7 @@ class	Server {
 							std::cout << buffer << std::endl;
 							parse Parser(buffer);
 							Parser.to_register(*this, user[i]);
+							
 							// send(sd, buffer, strlen(buffer), 0);
 							// Parser.exec();
 						}
@@ -219,6 +220,22 @@ class	Server {
 			for (size_t i = 0; i < user.size(); i++) {
 				std::cout << s << " : " << user[i]->getFd() << std::endl;
 				if (user[i]->getFd() == s)
+					return (user[i]);
+			}
+			return (NULL);
+		}
+
+		bool	clientExist(std::string name) {
+			for (size_t i = 0; i < user.size(); i++) {
+				if (name == user[i]->getNick())
+					return true;
+			}
+			return false;
+		}
+
+		Client * findClientByName(std::string _name) {
+			for (size_t i = 0; i < user.size(); i++) {
+				if (_name == user[i]->getNick())
 					return (user[i]);
 			}
 			return (NULL);

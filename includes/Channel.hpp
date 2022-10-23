@@ -27,6 +27,10 @@ class Channel {
 			superUser.push_back(client);
 		}
 
+		void	addMembers(Client * client) {
+			members.push_back(client);
+		}
+
 		std::string getName() {
 			return (name);
 		}
@@ -37,6 +41,14 @@ class Channel {
 
 		std::string	getPass(void) {
 			return (password);
+		}
+
+		bool	isSuper(Client * client) {
+			for (size_t i = 0; i < superUser.size(); i++) {
+				if (client->getNick() == superUser[i]->getNick())
+					return true;
+			}
+			return false;
 		}
 
 		// void	sendToMembers(std::string msg) {

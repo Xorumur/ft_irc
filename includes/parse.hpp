@@ -62,6 +62,8 @@ class parse {
 				}
 				else if (line[0] == "JOIN")
 					cmdJoin(serv, Client, line);
+				else if (line[0] == "PRIVMSG")
+					cmdPrivMsg(serv, Client, line);
 				// else if (line[0] == "QUIT" && line.size() > 1) {
 				// 	cmdQuit(serv, client);
 				// }
