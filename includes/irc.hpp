@@ -44,7 +44,7 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line);
 # include "Server.hpp"
 # include "parse.hpp"
 
-void	irc(int ac, char **av);
+int		irc(int ac, char **av);
 void 	tcp(Server serv);
 void	Server_loop(Server serv, fd_set readfds, int max_clients, struct sockaddr_in address, int addrlen, int i, int *client_socket);
 

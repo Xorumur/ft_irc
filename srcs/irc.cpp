@@ -1,6 +1,6 @@
 #include "../includes/irc.hpp"
 
-void	irc(int ac, char **av) {
+int	irc(int ac, char **av) {
 	if (ac == 3) {
 		// Server serv;
 		try {
@@ -9,8 +9,8 @@ void	irc(int ac, char **av) {
 		}
 		catch (std::exception & ex) {
 			std::cout << ex.what() << std::endl;
-			return ;
+			return 0;
 		}
 	} else 
-	{ std::cout << "Must be called like : ./ircserv <port> <password>" << std::endl; return; }
+	{ std::cout << "Must be called like : ./ircserv <port> <password>" << std::endl; return 0; }
 }	
