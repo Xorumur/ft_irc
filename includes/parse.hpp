@@ -64,6 +64,8 @@ class parse {
 					cmdJoin(serv, Client, line);
 				else if (line[0] == "PRIVMSG")
 					cmdPrivMsg(serv, Client, line);
+				else if (line[0] == "PART")
+					cmdPart(serv, Client, line);
 				// else if (line[0] == "QUIT" && line.size() > 1) {
 				// 	cmdQuit(serv, client);
 				// }

@@ -38,7 +38,7 @@ class	Server {
 		int						sfd;
 		int						fresh_fd;
 	public:
-		Server() {} 
+		Server() { } 
 
 		Server(char *pwd, char *New_p) : _password(pwd) {
 			std::string parse(New_p);

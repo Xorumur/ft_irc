@@ -13,6 +13,7 @@ class Channel {
 		std::vector<Client *>	superUser;
 	public:
 		Channel() { }
+		Channel(std::string _name) : name(_name) { }
 		Channel(char* _name) { 
 			std::string tmp(_name);
 			name = tmp;
@@ -49,6 +50,38 @@ class Channel {
 					return true;
 			}
 			return false;
+		}
+
+		bool isMembers(Client * client) {
+			for (size_t i = 0; i < members.size(); i++) {
+				if (client->getNick() == members[i]->getNick())
+					return true;
+			}
+			return false;
+		}
+
+		void	deleteMembers(Client * client) {
+			std::vector<Client *>::iterator it = members.begin();
+			for (size_t i = 0; i < members.size(); i++, it++) {
+				if (members[i]->getNick() == client->getNick()) {
+					members.erase(it);
+					return ;
+				}
+			}
+		}
+
+		void	deleteClient(Client * client) {
+			std::vector<Client *>::iterator it = members.begin();
+			for (size_t i = 0; i < members.size(); i++, it++) {
+				if (members[i]->getNick() == client->getNick()) {
+					members.erase(it);
+				}
+			}
+			it = superUser.begin();
+			for (size_t i = 0; i < superUser.size(); i++, it++) {
+				if (superUser[i]->getNick() == client->getNick())
+					superUser.erase(it);
+			}
 		}
 
 		// void	sendToMembers(std::string msg) {

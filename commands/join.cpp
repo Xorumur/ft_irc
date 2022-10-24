@@ -16,7 +16,7 @@ void	sendChannelInfo(Channel * chan, Client * client) {
 
 
 	/* RPL_NAMREPLY */
-	chanInfo = "353 " + client->getNick() + " = #" + chan->getName() + " :";
+	chanInfo = "353 " + client->getNick() + " = " + chan->getName() + " :";
 	for (size_t i = 0; i < chan->members.size(); i++) {
 		if (chan->isSuper(chan->members[i]) == true)
 			chanInfo += "@";
@@ -29,7 +29,7 @@ void	sendChannelInfo(Channel * chan, Client * client) {
 
 
 	/* RPL_ENDOFNAMES */
-	chanInfo = "366 " + client->getNick() + " #" + chan->getName() + " :End of NAMES ist\r\n";
+	chanInfo = "366 " + client->getNick() + " " + chan->getName() + " :End of NAMES ist\r\n";
 	send(client->getFd(), chanInfo.c_str(), chanInfo.size(), 0);
 	return ;
 }
@@ -80,11 +80,11 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 	   of channel that we have in the serv, and if it does not exist,
 	   we will have to create one */
 	for (size_t i = 0; i < newChann.size(); i++) {
-		Channel* _wtj = serv.findChannelByName(&newChann[i][1]);
+		Channel* _wtj = serv.findChannelByName(newChann[i]);
 		if (!_wtj) {
 			/* If _wtj is NULL it means that there is no Channel with this name. 
 			So here I create a Channel and push it back to the vector of channel that the server possess */
-			Channel  *to_add = new Channel(&newChann[i][1]);
+			Channel  *to_add = new Channel(newChann[i]);
 			to_add->addSuper(client);
 			to_add->addMembers(client);
 			if (setK == true && i < keys.size())

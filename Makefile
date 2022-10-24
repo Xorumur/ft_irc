@@ -13,6 +13,7 @@ SRCS =		main.cpp \
 			commands/mode.cpp \
 			commands/join.cpp \
 			commands/privmsg.cpp \
+			commands/part.cpp 
 
 OBJS =		$(SRCS:.cpp=.o)
 

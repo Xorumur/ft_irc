@@ -9,8 +9,8 @@ int	irc(int ac, char **av) {
 		}
 		catch (std::exception & ex) {
 			std::cout << ex.what() << std::endl;
-			return 0;
 		}
 	} else 
-	{ std::cout << "Must be called like : ./ircserv <port> <password>" << std::endl; return 0; }
+	{ std::cout << "Must be called like : ./irc <port> <password>" << std::endl;}
+	return 0;
 }	
