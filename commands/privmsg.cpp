@@ -8,7 +8,7 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 	/* If there is a # or a & it means a channel, otherwise it means a user */
 	if (line[1].find("#") == 0 || line[1].find("&") == 0)
 	{
-		std::string Chann(&line[1][1]);
+		std::string Chann(line[1]);
 		Channel *to_send = serv.findChannelByName(Chann);
 		std::cout << "Want to chat in the " << to_send->getName() << " channel" << std::endl;
 		bool testClient = serv.clientExist(line[1]);
@@ -21,7 +21,7 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 			return ;
 		}
 		else if (to_send) {
-			std::string msg = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 PRIVMSG #" + to_send->getName() + " :";
+			std::string msg = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 PRIVMSG " + to_send->getName() + " :";
 
 			msg += &line[2][1]; // Message
 			
@@ -47,7 +47,7 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 			return ;
 		}
 		else {
-			std::string msg = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 PRIVMSG #" + line[1] + " :";
+			std::string msg = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 PRIVMSG " + line[1] + " :";
 
 			msg += &line[2][1]; // Message
 			if (line.size() > 3)

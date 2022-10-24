@@ -10,6 +10,6 @@ int	irc(int ac, char **av) {
 			std::cout << ex.what() << std::endl;
 		}
 	} else 
-	{ std::cout << "Must be called like : ./irc <port> <password>" << std::endl;}
+		std::cout << "Must be called like : ./irc <port> <password>" << std::endl;
 	return 0;
 }	
