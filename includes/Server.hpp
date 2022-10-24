@@ -87,7 +87,7 @@ class	Server {
 				tmp->setFd(new_socket);
 			this->user.push_back(tmp);
 			// std::cout << "New size = " << this->user.size() << std::endl;
-			printf("New connection , socket fd is %d , ip is : %s , port : %d\n" , new_socket , inet_ntoa(address.sin_addr) , ntohs
+			printf("[+] New connection , socket fd is %d , ip is : %s , port : %d\n" , new_socket , inet_ntoa(address.sin_addr) , ntohs
                    (address.sin_port));
 			fresh_fd = new_socket;
 		}
@@ -132,7 +132,7 @@ class	Server {
 			if (bind(sfd, (struct sockaddr *)&address, sizeof(address))<0)  
 				throw SocketBindFailed();
 
-			printf("Listener on port %d \n", getPort());  
+			printf("[=] Listener on port %d \n", getPort());  
 				
 			//try to specify maximum of 3 pending connections for the master socket 
 			if (listen(sfd, 3) < 0)  
@@ -140,7 +140,7 @@ class	Server {
 				
 			//accept the incoming connection 
 			addrlen = sizeof(address);  
-			puts("Waiting for connections ...");  
+			puts("[..] Waiting for connections ...");  
 		
 		// FIN TCP
 
@@ -179,7 +179,7 @@ class	Server {
 						{  
 							getpeername(sd , (struct sockaddr*)&address , \
 								(socklen_t*)&addrlen);  
-							printf("Host disconnected , ip %s , port %d \n" , 
+							printf("[*] Host disconnected , ip %s , port %d \n" , 
 								inet_ntoa(address.sin_addr) , ntohs(address.sin_port));  
 							
 							close( sd ); 
@@ -200,8 +200,8 @@ class	Server {
 					}
 				}  	
 				// Display the number of client that have set their nick/user/pass
-				displayNbOfClient();
-				std::cout << "There is " << user.size() << " client link to the server" << std::endl;
+				// displayNbOfClient();
+				// std::cout << "There is " << user.size() << " client link to the server" << std::endl;
 			}
 			return ;
 		}

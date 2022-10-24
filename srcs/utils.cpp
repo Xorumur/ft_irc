@@ -32,7 +32,7 @@ void	is_Accepted(Client * client) {
 
 /* Here I send the message to all the client who belong to this channel */
 void	sendToChannel(std::string msg, Channel * chan, Client * client, bool himself) {
-	std::cout << "Size of vector channel on serv : " << chan->members.size() << std::endl;
+	// std::cout << "Size of vector channel on serv : " << chan->members.size() << std::endl;
 	for (size_t i = 0; i < chan->members.size(); i++) {
 		if (chan->members[i]->getNick() == client->getNick() && himself == false)
 			;

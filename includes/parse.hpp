@@ -27,12 +27,13 @@ class parse {
 			}
 			// std::cout << tab.size() << std::endl;
 			for (size_t i = 0; i < tab.size(); i++) {
-				std::cout << "ARG[" << i << "] = " << tab[i] << std::endl;
+				if (tab[i].empty() == 0)
+					std::cout << "ARG[" << i << "] = " << tab[i] << std::endl;
 			}
 		}
 
 		void	to_register(Server & serv, Client * Client) {
-			std::cout << "Server starting to parse what the client has send" << std::endl;
+			// std::cout << "Server starting to parse what the client has send" << std::endl;
 			std::string delim(" ");
 			for (size_t i = 0; i < tab.size(); i++) {
 				std::vector<std::string> line = split(tab[i], delim);

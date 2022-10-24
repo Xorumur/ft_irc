@@ -91,6 +91,7 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 				to_add->setPass(keys[i]);
 			serv.Chan.push_back(to_add);
 			client->setCurrChannel(to_add);
+			sendChannelInfo(to_add, client);
 			std::cout << "Size of chann : " << serv.Chan.size() << std::endl;
 			/* There is a specific message to send to all the users of the channel that the client join */
 			// std::string wlcMsg;
