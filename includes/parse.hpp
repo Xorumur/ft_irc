@@ -52,23 +52,25 @@ class parse {
 				}
 				else if (line[0] == "PASS")
 					cmdPass(line[1], serv, Client);
-				else if (line[0] == "PING" && line.size() == 2) {
-					std::string	to_send = "PONG :" + line[1] + "\r\n";
-					std::cout << "This is what I send to the PONG command : " << to_send << std::endl; 
-					send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0); 
+				/* If the client is accepted he can execute this commands otherwise he can't*/
+				if (Client->accepted == true) {
+					if (line[0] == "PING" && line.size() == 2) {
+						std::string	to_send = "PONG :" + line[1] + "\r\n";
+						std::cout << "This is what I send to the PONG command : " << to_send << std::endl; 
+						send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0); 
+					}
+					else if (line[0] == "MODE")
+						cmdMode(serv, Client, line);
+					else if (line[0] == "JOIN")
+						cmdJoin(serv, Client, line);
+					else if (line[0] == "PRIVMSG")
+						cmdPrivMsg(serv, Client, line);
+					else if (line[0] == "PART")
+						cmdPart(serv, Client, line);
+					// else if (line[0] == "QUIT" && line.size() > 1) {
+					// 	cmdQuit(serv, client);
+					// }
 				}
-				else if (line[0] == "MODE") {
-					cmdMode(serv, Client, line);
-				}
-				else if (line[0] == "JOIN")
-					cmdJoin(serv, Client, line);
-				else if (line[0] == "PRIVMSG")
-					cmdPrivMsg(serv, Client, line);
-				else if (line[0] == "PART")
-					cmdPart(serv, Client, line);
-				// else if (line[0] == "QUIT" && line.size() > 1) {
-				// 	cmdQuit(serv, client);
-				// }
 			}
 		}
 };

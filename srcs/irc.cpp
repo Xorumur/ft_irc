@@ -2,7 +2,6 @@
 
 int	irc(int ac, char **av) {
 	if (ac == 3) {
-		// Server serv;
 		try {
 			Server serv(av[2], av[1]);;
 			serv.start();
