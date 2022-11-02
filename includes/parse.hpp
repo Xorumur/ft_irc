@@ -64,7 +64,7 @@ class parse {
 						cmdMode(serv, Client, line);
 					else if (line[0] == "JOIN")
 						cmdJoin(serv, Client, line);
-					else if (line[0] == "PRIVMSG")
+					else if (line[0] == "PRIVMSG" || line[0] == "NOTICE")
 						cmdPrivMsg(serv, Client, line);
 					else if (line[0] == "PART")
 						cmdPart(serv, Client, line);

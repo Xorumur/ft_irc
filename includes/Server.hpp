@@ -37,6 +37,7 @@ class	Server {
 		std::vector<Channel *>	Chan;
 		int						sfd;
 		int						fresh_fd;
+		std::string				histo;
 	public:
 		Server() { } 
 
@@ -196,8 +197,17 @@ class	Server {
 			
 						else {
 							buffer[valread] = '\0';
-							parse Parser(buffer);
-							Parser.to_register(*this, user[i]);
+							std::string tmp(buffer);
+							if (user[i]->histo.empty())
+								user[i]->histo = tmp;
+							if (user[i]->histo.find("\r\n") == std::string::npos) {
+								user[i]->histo += tmp;
+							}
+							else {
+								parse Parser((char *)user[i]->histo.c_str());
+								Parser.to_register(*this, user[i]);
+								user[i]->histo.clear();
+							}
 						}
 					}
 				}  	

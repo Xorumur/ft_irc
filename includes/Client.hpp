@@ -14,7 +14,6 @@ class Client {
 		
 		// char			mode;
 		Channel*		_curr;
-
 		/* The fd where the client send his socket and where I received it */
 		unsigned long	fd;
 
@@ -27,9 +26,9 @@ class Client {
 		bool	real;
 		bool	user;
 		bool	op;
-
 		bool	accepted; // Check if the user is accepted by the server
 		// int				sfd;
+		std::string		histo;
 
 	public:
 		Client() : _password() { 
