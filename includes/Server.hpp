@@ -77,6 +77,10 @@ class	Server {
 			_password = pass;
 		}
 
+		std::string getIrcPass(void) {
+			return (_irc_pass);
+		}
+
 		void	addClient(void) {
 			struct sockaddr_in address;
 			int new_socket;

@@ -70,6 +70,10 @@ class parse {
 						cmdPart(serv, Client, line);
 					else if (line[0] == "TOPIC")
 						cmdTopic(serv, Client, line);
+					else if (line[0] == "OPER")
+						cmdOper(serv, Client, line);
+					else if (line[0] == "kill")
+						cmdKill(serv, Client, line);
 					// else if (line[0] == "QUIT" && line.size() > 1) {
 					// 	cmdQuit(serv, client);
 					// }

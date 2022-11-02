@@ -26,7 +26,7 @@ class Client {
 		bool	nick;
 		bool	real;
 		bool	user;
-
+		bool	op;
 
 		bool	accepted; // Check if the user is accepted by the server
 		// int				sfd;
@@ -39,6 +39,7 @@ class Client {
 			real = false;
 			user = false;
 			accepted = false;
+			op = false;
 
 			_curr = NULL;
 		}
