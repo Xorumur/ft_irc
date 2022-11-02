@@ -190,12 +190,8 @@ class	Server {
 			
 						else {
 							buffer[valread] = '\0';
-							std::cout << buffer << std::endl;
 							parse Parser(buffer);
 							Parser.to_register(*this, user[i]);
-							
-							// send(sd, buffer, strlen(buffer), 0);
-							// Parser.exec();
 						}
 					}
 				}  	

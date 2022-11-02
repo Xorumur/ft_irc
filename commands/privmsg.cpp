@@ -20,7 +20,7 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 			std::cout << errMsg << std::endl;
 			return ;
 		}
-		else if (to_send) {
+		else if (to_send && to_send->isHere(client) == true) {
 			std::string msg = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 PRIVMSG " + to_send->getName() + " :";
 
 			msg += &line[2][1]; // Message
@@ -36,6 +36,11 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 			std::cout << "Prototype of what I send to the client : " << msg << std::endl;
 			sendToChannel(msg, to_send, client, false);
 			return ;
+		}
+		else {
+			errMsg = "404 " + to_send->getName() + "  :Cannot send to channel\r\n";
+			std::cout << errMsg << std::endl;
+			send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 		}
 	}
 	else {

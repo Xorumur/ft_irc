@@ -22,8 +22,9 @@ void	is_Accepted(Client * client) {
 	if (client->nick == true && client->pass == true && client->user == true) {
 		std::string Welcome;
 		client->accepted = true;
-		Welcome = "001 " + client->getNick() + " :Welcome to the Internet Relay Network ";
-		Welcome += client->getNick() + "!" + client->getUser() + "@127.0.0.1\r\n";
+		// Welcome = "001 " + client->getNick() + " :Welcome to the Internet Relay Network ";
+		// Welcome += client->getNick() + "!" + client->getUser() + "@127.0.0.1\r\n";
+		Welcome = ":localhost 001 " + client->getNick() + "\r\n" + "\"Welcome to the Internet Relay Chat Network " + client->getNick() + "!" + client->getUser() + "@localhost" + "\"" + "\r\n";
 		std::cout << Welcome << std::endl;
 		send(client->getFd(), Welcome.c_str(), strlen(Welcome.c_str()), 0); 
 	}

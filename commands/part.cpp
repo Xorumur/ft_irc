@@ -6,6 +6,7 @@ void	cmdPart(Server & serv, Client * client, std::vector<std::string> cmd) {
 	/* If there is just only the commad PART it miss the name of the channel to leave */
 	if (cmd.size() == 1) {
 		errMsg = "461 PART :Not enough parameters\r\n";
+		std::cout << errMsg << std::endl;
 		send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 		std::cout << errMsg << std::endl;
 		return ;
@@ -24,6 +25,7 @@ void	cmdPart(Server & serv, Client * client, std::vector<std::string> cmd) {
 		if (!to_leave) {
 			/* If the channel the client wants to leave doesn't exist */
 			errMsg = "403 " + Chann + " :No such channel\r\n";
+			std::cout << errMsg << std::endl;
 			send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 		}
 		else {
@@ -38,14 +40,16 @@ void	cmdPart(Server & serv, Client * client, std::vector<std::string> cmd) {
 					errMsg += partMsg;
 				}
 				errMsg += "\r\n";
-				std::cout << "This is what I send to PART commad to all the other clients : " << errMsg << std::endl;
+				std::cout << "This is what I send to PART commad to all the other clients : " << errMsg   << std::endl;
 				/* Send the information that the client leave the channel to all the other user that belongs to the CHANNEl */
+				client->setCurrChannelNull();
 				sendToChannel(errMsg, to_leave, client, true);
 				to_leave->deleteClient(client);
 			}
 			else {
 				/* Otherwise I send to the client an error message */ 
 				errMsg = "442 " + Chann + " :You're not on that channel\r\n";
+				std::cout << errMsg << std::endl;
 				send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 			}
 		}

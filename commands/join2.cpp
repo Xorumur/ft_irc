@@ -10,10 +10,7 @@ void	sendChannelInfo(Channel * chan, Client * client) {
 
 
 	/* RPL_TOPIC */
-	if (chan->getTopic().empty())
-		chanInfo = "332 " + client->getNick() + " " + chan->getName() + " :No Topic set\r\n";
-	else 
-		chanInfo = "332 " + client->getNick() + " " + chan->getName() + " " + chan->getTopic() + "\r\n";
+	chanInfo = "332 " + client->getNick() + " " + chan->getName() + " :No Topic set\r\n";
 	send(client->getFd(), chanInfo.c_str(), chanInfo.size(), 0);
 	chanInfo.clear();
 
@@ -106,52 +103,46 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 		else {
 			/* If it's not NULL it means a channel with this name already exists. 
 			So we have to make this client join this channel */
-			if (_wtj->passState() == true && sizeK != 0 && i < sizeK) {
-				/* Here is the case where the client send a key to join a channel */
-				/* The case where the client send a key but the channel does not have one is handle by the 
-				   _wtj->pass == false */
-				std::cout << "i < sizeK" << std::endl;
-				if (_wtj->pass == false || keys[i] == _wtj->getPass()) {
-					_wtj->members.push_back(client);
-					client->setCurrChannel(_wtj);
+			if (_wtj->passState() == true) {
+				if (sizeK == 0) {
+					std::cout << "There is a key but client doesn't have send it" << std::endl;
+					errMsg = ": 475 " + _wtj->getName() + " :Cannot join channel (+k)\r\n";
+					send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
+				}
+				else if (sizeK != 0 && i < sizeK) {
+					std::cout << "Client has send key as : " << keys[i] << std::endl;
+					if (keys[i] != _wtj->getPass()) {
+						std::cout << "The key of the channel is : " << _wtj->getPass() << ". But client as send : " << keys[i] << std::endl; 
+						errMsg = "475 " + _wtj->getName() + " :Cannot join channel (+k)\r\n";
+						send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
+					}
+					else if (keys[i] == _wtj->getPass()) {
+						std::cout << "The key the client has send is the key of the channel so I accept him into this channel." << std::endl; 
+						_wtj->members.push_back(client);
+						client->setCurrChannel(_wtj);
 
-					/* There is a specific message to send to all the users of the channel that the client join */
-					std::string wlcMsg;
-					wlcMsg = client->getNick() + "!" + client->getUser() + "@127.0.0.1 JOIN " + newChann[i] + "\r\n";
-					sendToChannel(wlcMsg, _wtj, client, true);
-					sendChannelInfo(_wtj, client);
-				}
-				else if (keys[i] != _wtj->getPass()) {
-					/* Wrong key */
-					errMsg = "475 " + _wtj->getName() + " :Cannot join channel (+k)\r\n";
-					send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
-				}
-				else {
-					errMsg = "475 " + _wtj->getName() + " :Cannot join channel (+k)\r\n";
-					send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
+						/* There is a specific message to send to all the users of the channel that the client join */
+						std::string wlcMsg;
+						wlcMsg = client->getNick() + "!" + client->getUser() + "@127.0.0.1 JOIN " + newChann[i] + "\r\n";
+						sendToChannel(wlcMsg, _wtj, client, true);
+						sendChannelInfo(_wtj, client);
+					}
 				}
 			}
 			else {
-				if (_wtj->pass == false) {
-					/* Channel don't have a key */
-					std::cout << "No key" << std::endl;
-					_wtj->members.push_back(client);
-					client->setCurrChannel(_wtj);
+				std::cout << "No key" << std::endl;
+				_wtj->members.push_back(client);
+				client->setCurrChannel(_wtj);
 
-					/* There is a specific message to send to all the users of the channel that the client join */
-					std::string wlcMsg;
-					wlcMsg = client->getNick() + "!" + client->getUser() + "@127.0.0.1 JOIN " + newChann[i] + "\r\n";
-					sendToChannel(wlcMsg, _wtj, client, true); 
-					sendChannelInfo(_wtj, client);
-				}	
-				else {
-					/* Channel have a key but client don't have sent the key */
-					errMsg = "475 " + _wtj->getName() + " :Cannot join channel (+k)\r\n";
-					send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
-				}
+				/* There is a specific message to send to all the users of the channel that the client join */
+				std::string wlcMsg;
+				wlcMsg = client->getNick() + "!" + client->getUser() + "@127.0.0.1 JOIN " + newChann[i] + "\r\n";
+				sendToChannel(wlcMsg, _wtj, client, true); 
+				sendChannelInfo(_wtj, client);
 			}
 		}
 	}
-	std::cout << "This user belong to the channel : " << client->getCurr()->getName() << std::endl;
+	if (client->getCurr())
+		std::cout << "This user belong to the channel : " << client->getCurr()->getName() << std::endl;
 	return ;
 }

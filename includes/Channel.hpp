@@ -7,21 +7,20 @@ class Channel {
 		// int	_port;
 		std::string name;
 		std::string password;
+		std::string	topic;
 	public:
 		bool					pass;
 		std::vector<Client *>	members;
 		std::vector<Client *>	superUser;
 	public:
 		Channel() { }
-		Channel(std::string _name) : name(_name) { }
+		Channel(std::string _name) : name(_name), pass(false) { }
 		Channel(char* _name) { 
 			std::string tmp(_name);
 			name = tmp;
 			pass = false;
 		}
-		// Channel(std::string _name, Client * super) : name(_name) { 
-		// 	superUser.push_back(super);
-		// }
+
 		~Channel() { }
 
 		void	addSuper(Client * client) {
@@ -38,10 +37,15 @@ class Channel {
 
 		void	setPass(std::string _pass) {
 			password = _pass;
+			pass = true;
 		}
 
 		std::string	getPass(void) {
 			return (password);
+		}
+
+		bool	passState(void) {
+			return (pass);
 		}
 
 		bool	isSuper(Client * client) {
@@ -60,11 +64,29 @@ class Channel {
 			return false;
 		}
 
+		bool isHere(Client * client) {
+			if (isMembers(client) == true)
+				return true;
+			else if (isSuper(client) == true)
+				return true;
+			return false;
+		}
+
 		void	deleteMembers(Client * client) {
 			std::vector<Client *>::iterator it = members.begin();
 			for (size_t i = 0; i < members.size(); i++, it++) {
 				if (members[i]->getNick() == client->getNick()) {
 					members.erase(it);
+					return ;
+				}
+			}
+		}
+
+		void	deleteSuper(Client * client) {
+			std::vector<Client *>::iterator it = superUser.begin();
+			for (size_t i = 0; i < superUser.size(); i++, it++) {
+				if (superUser[i]->getNick() == client->getNick()) {
+					superUser.erase(it);
 					return ;
 				}
 			}
@@ -82,6 +104,18 @@ class Channel {
 				if (superUser[i]->getNick() == client->getNick())
 					superUser.erase(it);
 			}
+		}
+
+		std::string getTopic(void) {
+			return (topic);
+		}
+
+		void		setTopic(std::string _newTopic) {
+			topic = _newTopic;
+		}
+
+		void		clearTopic(void) {
+			topic.clear();
 		}
 
 		// void	sendToMembers(std::string msg) {

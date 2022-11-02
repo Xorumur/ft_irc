@@ -28,7 +28,7 @@ class parse {
 			// std::cout << tab.size() << std::endl;
 			for (size_t i = 0; i < tab.size(); i++) {
 				if (tab[i].empty() == 0)
-					std::cout << "ARG[" << i << "] = " << tab[i] << std::endl;
+					std::cout << "[MESSSAGE][" << i << "] = " << "{" << tab[i] << "}" << std::endl;
 			}
 		}
 
@@ -68,6 +68,8 @@ class parse {
 						cmdPrivMsg(serv, Client, line);
 					else if (line[0] == "PART")
 						cmdPart(serv, Client, line);
+					else if (line[0] == "TOPIC")
+						cmdTopic(serv, Client, line);
 					// else if (line[0] == "QUIT" && line.size() > 1) {
 					// 	cmdQuit(serv, client);
 					// }

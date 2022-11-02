@@ -11,9 +11,10 @@ SRCS =		main.cpp \
 			commands/nick.cpp \
 			commands/user.cpp \
 			commands/mode.cpp \
-			commands/join.cpp \
+			commands/join2.cpp \
 			commands/privmsg.cpp \
-			commands/part.cpp 
+			commands/part.cpp \
+			commands/topic.cpp \
 
 OBJS =		$(SRCS:.cpp=.o)
 
