@@ -28,7 +28,7 @@ class parse {
 			// std::cout << tab.size() << std::endl;
 			for (size_t i = 0; i < tab.size(); i++) {
 				if (tab[i].empty() == 0)
-					std::cout << "[MESSSAGE][" << i << "] = " << "{" << tab[i] << "}" << std::endl;
+					std::cout << "\e[0;33m[MESSSAGE][" << i << "]\e[0m = " << "\e[0;32m{" << tab[i] << "}\e[0m" << std::endl;
 			}
 		}
 
@@ -56,7 +56,7 @@ class parse {
 				/* If the client is accepted he can execute this commands otherwise he can't*/
 				if (Client->accepted == true) {
 					if (line[0] == "PING" && line.size() == 2) {
-						std::string	to_send = "PONG :" + line[1] + "\r\n";
+						std::string	to_send = ":irc PONG :" + line[1] + "\r\n";
 						std::cout << "This is what I send to the PONG command : " << to_send << std::endl; 
 						send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0); 
 					}

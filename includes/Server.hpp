@@ -30,7 +30,7 @@ class	Server {
 	private:
 		std::string 			_password;
 		int						_port;
-		
+		std::string				_irc_pass;
 		// int					_id;
 	public:
 		std::vector<Client *>	user;
@@ -50,6 +50,8 @@ class	Server {
 			_port = atoi(New_p);
 			if (_port < 0 || _port > 65535)
 				throw ErrorInPort();
+			std::cout << "\e[0;35mChoose your operator IRC password : \e[0m";
+			std::cin >> _irc_pass;
 		}
 
 		Server(const Server & rhs) {
@@ -87,7 +89,7 @@ class	Server {
 				tmp->setFd(new_socket);
 			this->user.push_back(tmp);
 			// std::cout << "New size = " << this->user.size() << std::endl;
-			printf("[+] New connection , socket fd is %d , ip is : %s , port : %d\n" , new_socket , inet_ntoa(address.sin_addr) , ntohs
+			printf("\e[0;34m[+] New connection , socket fd is %d , ip is : %s , port : %d\n\e[0m" , new_socket , inet_ntoa(address.sin_addr) , ntohs
                    (address.sin_port));
 			fresh_fd = new_socket;
 		}
@@ -132,7 +134,7 @@ class	Server {
 			if (bind(sfd, (struct sockaddr *)&address, sizeof(address))<0)  
 				throw SocketBindFailed();
 
-			printf("[=] Listener on port %d \n", getPort());  
+			printf("\e[0;34m[=] Listener on port %d \n\e[0m", getPort());  
 				
 			//try to specify maximum of 3 pending connections for the master socket 
 			if (listen(sfd, 3) < 0)  
@@ -140,7 +142,7 @@ class	Server {
 				
 			//accept the incoming connection 
 			addrlen = sizeof(address);  
-			puts("[..] Waiting for connections ...");  
+			puts("\e[0;34m[..] Waiting for connections ...\e[0m");  
 		
 		// FIN TCP
 
@@ -179,7 +181,7 @@ class	Server {
 						{  
 							getpeername(sd , (struct sockaddr*)&address , \
 								(socklen_t*)&addrlen);  
-							printf("[*] Host disconnected , ip %s , port %d \n" , 
+							printf("\e[0;34m[*] Host disconnected , ip %s , port %d \n\e[0m" , 
 								inet_ntoa(address.sin_addr) , ntohs(address.sin_port));  
 							
 							close( sd ); 
