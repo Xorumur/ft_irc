@@ -46,6 +46,8 @@ void	cmdTopic(Server & serv, Client * client, std::vector<std::string> arg);
 void	cmdOper(Server & serv, Client * client, std::vector<std::string> arg);
 void	cmdKill(Server & serv, Client * client, std::vector<std::string> arg);
 void	cmdKick(Server & serv, Client * client, std::vector<std::string> line);
+void	cmdQuit(Server & serv, Client * client, std::vector<std::string> arg);
+
 # include "Client.hpp"
 # include "Channel.hpp"
 # include "Server.hpp"

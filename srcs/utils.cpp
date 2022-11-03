@@ -27,7 +27,7 @@ void	is_Accepted(Client * client) {
 		Welcome = ":localhost 001 " + client->getNick() + "\r\n" + "\"Welcome to the Internet Relay Chat Network " + client->getNick() + "!" + client->getUser() + "@localhost" + "\"" + "\r\n";
 		// std::cout << Welcome << std::endl;
 		std::cout << "\e[1;36mClient has sent all the information requiered to be log\e[0m" << std::endl; 
-		std::cout << "\e[1;31mWelcome message send successfuly\e[0m" << std::endl; 
+		std::cout << "\e[1;95mWelcome message send successfuly\e[0m" << std::endl; 
 		send(client->getFd(), Welcome.c_str(), strlen(Welcome.c_str()), 0);
 	}
 	return ;

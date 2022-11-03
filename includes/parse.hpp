@@ -84,5 +84,5 @@ class parse {
 						cmdKick(serv, Client, line);
 				}
 			}
-		}
+		}	
 };

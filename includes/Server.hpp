@@ -11,7 +11,7 @@ class ErrorInPort : public std::exception {
 	public:
 		virtual const char* what() const throw()	
 		{
-			return ("Not a valable number for the Port between [0; 65,535]");
+			return ("Not a valable number for the Port between ]0; 65,535]");
 		}
 };
 
@@ -31,7 +31,6 @@ class	Server {
 		std::string 			_password;
 		int						_port;
 		std::string				_irc_pass;
-		// int					_id;
 	public:
 		std::vector<Client *>	user;
 		std::vector<Channel *>	Chan;
@@ -49,7 +48,7 @@ class	Server {
 					throw ErrorInPortInput();
 			}
 			_port = atoi(New_p);
-			if (_port < 0 || _port > 65535)
+			if (_port < 0 || _port > 65535 || _port == 0)
 				throw ErrorInPort();
 			std::cout << "\e[0;35mChoose your operator IRC password : \e[0m";
 			std::cin >> _irc_pass;
@@ -93,15 +92,26 @@ class	Server {
 			else
 				tmp->setFd(new_socket);
 			this->user.push_back(tmp);
-			// std::cout << "New size = " << this->user.size() << std::endl;
 			printf("\e[0;34m[+] New connection , socket fd is %d , ip is : %s , port : %d\n\e[0m" , new_socket , inet_ntoa(address.sin_addr) , ntohs
                    (address.sin_port));
 			fresh_fd = new_socket;
 		}
 
 		void	deleteClient(unsigned long s) {
-			std::vector<Client *>::iterator	it = user.begin();
+			/* When a client leave it has to leave all the channel where he's present */
+			Client * client = findClientByFd(s);
+			for (size_t i = 0; i < Chan.size(); i++) {
+				if (Chan[i]->isHere(client)) {
+					/* Here I set up all the arguments the part function needs to work */
+					std::vector<std::string> arg;
+					arg.push_back("PART");
+					arg.push_back(Chan[i]->getName());
+					cmdPart(*this, client, arg);
+				}
+			}
 
+			std::vector<Client *>::iterator	it = user.begin();
+			/* Now I delete the client from the vector of user the server possess */
 			for (size_t i = 0; i < user.size() && user[i]->getFd() != s; i++, it++)
 				;
 			user.erase(it);
@@ -109,47 +119,41 @@ class	Server {
 
 		void	start(void) {
 			int opt = TRUE;  
-   			int addrlen , client_socket[30] , max_clients = 30 , i;  
+   			int addrlen;  
     		struct sockaddr_in address;  
 				
 			//set of socket descriptors 
 			fd_set readfds;  
-							
-			//initialise all client_socket[] to 0 so not checked 
-			for (i = 0; i < max_clients; i++)  
-			{  
-				client_socket[i] = 0;  
-			}  
-				
+										
 			//create a master socket 
 			if( (sfd = socket(AF_INET , SOCK_STREAM , 0)) == 0)  
 				throw SocketCreaFailed();
 			
-			//set master socket to allow multiple connections , 
-			//this is just a good habit, it will work without this 
+			/* set master socket to allow multiple connections , 
+			this is just a good habit, it will work without this */
 			if( setsockopt(sfd, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0 )  
 				throw SetSocketOptFailed();
 			
-			//type of socket created 
+			/* type of socket created */
 			address.sin_family = AF_INET;  
 			address.sin_addr.s_addr = INADDR_ANY;  
 			address.sin_port = htons(getPort());  
 				
-			//bind the socket to localhost port 8888 
+			/* bind the socket to localhost port 8888 */
 			if (bind(sfd, (struct sockaddr *)&address, sizeof(address))<0)  
 				throw SocketBindFailed();
 
 			printf("\e[0;34m[=] Listener on port %d \n\e[0m", getPort());  
 				
-			//try to specify maximum of 3 pending connections for the master socket 
+			/* try to specify maximum of 3 pending connections for the master socket */
 			if (listen(sfd, 3) < 0)  
 				throw SocketListenFailed();
 				
-			//accept the incoming connection 
+			/* accept the incoming connection */ 
 			addrlen = sizeof(address);  
 			puts("\e[0;34m[..] Waiting for connections ...\e[0m");  
 		
-		// FIN TCP
+			/* FIN TCP */
 
 			char buffer[1025];
 			int valread;
@@ -162,7 +166,7 @@ class	Server {
 				FD_SET(sfd, &readfds);  
 				max_sd = sfd;  
 
-				// Set the FD with the function
+				/* Set the FD with the function */
 				for (size_t i = 0; i < user.size(); i++) {
 					sd = user[i]->getFd();
 					if (sd > 0)
@@ -170,18 +174,18 @@ class	Server {
 					if (sd > max_sd)
 						max_sd = sd;
 				}
-				// select wait for an event
+				/* select wait for an event */
 				activity = select( max_sd + 1 , &readfds , NULL , NULL , NULL);
 				if ((activity < 0) && (errno!=EINTR))  
 					throw SelectFailed();
 				if (FD_ISSET(sfd, &readfds))  
 					addClient();
 				for (size_t i = 0; i < user.size(); i++) {
-					// get the fd of the client
+					/* get the fd of the client */
 					sd = user[i]->getFd();
-					// Check if an event has occured on this fd
+					/* Check if an event has occured on this fd */
 					if (FD_ISSET(sd, &readfds)) {
-						// recv is the same as read
+						/* recv is the same as read */
 						if ((valread = recv(sd, buffer, 1024, 0)) == 0)
 						{  
 							getpeername(sd , (struct sockaddr*)&address , \
@@ -190,9 +194,8 @@ class	Server {
 								inet_ntoa(address.sin_addr) , ntohs(address.sin_port));  
 							
 							close(sd); 
-							// Function to erase the client within the private attributs user 
+							/* Function to erase the client within the private attributs user */
 							deleteClient(sd);
-							client_socket[i] = 0;  
 						}
 			
 						else {
@@ -213,9 +216,6 @@ class	Server {
 						}
 					}
 				}  	
-				// Display the number of client that have set their nick/user/pass
-				// displayNbOfClient();
-				// std::cout << "There is " << user.size() << " client link to the server" << std::endl;
 			}
 			return ;
 		}
@@ -230,9 +230,7 @@ class	Server {
 		}
 
 		Client * findClientByFd(unsigned long s) {
-			std::cout << "SIZE = " << this->user.size() << std::endl;
 			for (size_t i = 0; i < user.size(); i++) {
-				std::cout << s << " : " << user[i]->getFd() << std::endl;
 				if (user[i]->getFd() == s)
 					return (user[i]);
 			}

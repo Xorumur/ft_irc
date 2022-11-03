@@ -7,9 +7,9 @@ int	irc(int ac, char **av) {
 			serv.start();
 		}
 		catch (std::exception & ex) {
-			std::cout << ex.what() << std::endl;
+			rplDisplay(ex.what());
 		}
 	} else 
-		std::cout << "Must be called like : ./irc <port> <password>" << std::endl;
+		rplDisplay("Must be called like : ./irc <port> <password>");
 	return 0;
 }	
