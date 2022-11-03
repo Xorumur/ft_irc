@@ -4,8 +4,8 @@ A simple irc server :)
 
 You can launch the server like this : ./ircserv [PORT] [PASSWORD].
 									
-										-Once you start the server it will demands you the password for the the server
-											that way users could make themselves operators of the server.
+		-Once you start the server it will demands you the password for the the server
+			that way users could make themselves operators of the server.
 
 You can use as a Client : 
 							-irssi.
