@@ -23,12 +23,19 @@ class Client {
 			I accept the client in the server */
 		bool	pass;
 		bool	nick;
-		bool	real;
 		bool	user;
-		bool	op;
+
 		bool	accepted; // Check if the user is accepted by the server
-		// int				sfd;
+
+		/* This bool serves to know if the client is op on the Server,
+			not on a Channel, when he's op he can execute operator commands like Kill */
+		bool	op;
+		
+		/* What the client send is stocked in this string, if there isn't "\r\n", 
+			the server doesn't parse what the client has send */
 		std::string		histo;
+
+		bool	real;
 
 	public:
 		Client() : _password() { 
