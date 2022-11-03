@@ -8,5 +8,6 @@ You can launch the server like this : ./ircserv [PORT] [PASSWORD].
 			that way users could make themselves operators of the server.
 
 You can use as a Client : 
+
 							-irssi.
-							-netcat (like this : nc -c {The -c option add a \r\n at the end of the line you write}).
+		-netcat (like this : nc -c {The -c option add a \r\n at the end of the line you write}).
