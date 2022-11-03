@@ -36,9 +36,7 @@ class parse {
 			std::string delim(" ");
 			for (size_t i = 0; i < tab.size(); i++) {
 				std::vector<std::string> line = split(tab[i], delim);
-				if (line[0] == "CAP")
-					Client->irssi = true;
-				else if (line[0] == "NICK" && line.size() == 2)
+				if (line[0] == "NICK" && line.size() == 2)
 					cmdNick(serv, Client, line[1]);
 				else if (line[0] == "NICK" && line.size() == 1) {
 					std::string to_send = "431 " + Client->getNick() + " :No nickname given\r\n";

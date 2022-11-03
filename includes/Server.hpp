@@ -198,7 +198,7 @@ class	Server {
 						else {
 							buffer[valread] = '\0';
 							std::string tmp(buffer);
-							// std::string display = "What the server received : " + tmp;
+							std::string display = "What the server received : " + tmp;
 							colorMsg("\e[0;96m", (char *)display.c_str());
 							if (user[i]->histo.empty())
 								user[i]->histo = tmp;
