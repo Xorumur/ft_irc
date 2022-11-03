@@ -6,6 +6,7 @@ void	cmdPass(std::string pass, Server & serv, Client * client) {
 	else if (pass == serv.getPassword()) {
 		client->setPwd(pass);
 		client->pass = true;
+		std::cout << "\e[1;36mPassword set\e[0m" << std::endl;
 	}
 	else if (pass != serv.getPassword() && client->pass == true) {
 		client->pass = false;

@@ -25,8 +25,10 @@ void	is_Accepted(Client * client) {
 		// Welcome = "001 " + client->getNick() + " :Welcome to the Internet Relay Network ";
 		// Welcome += client->getNick() + "!" + client->getUser() + "@127.0.0.1\r\n";
 		Welcome = ":localhost 001 " + client->getNick() + "\r\n" + "\"Welcome to the Internet Relay Chat Network " + client->getNick() + "!" + client->getUser() + "@localhost" + "\"" + "\r\n";
-		std::cout << Welcome << std::endl;
-		send(client->getFd(), Welcome.c_str(), strlen(Welcome.c_str()), 0); 
+		// std::cout << Welcome << std::endl;
+		std::cout << "\e[1;31mWelcome message send successfuly\e[0m" << std::endl; 
+		send(client->getFd(), Welcome.c_str(), strlen(Welcome.c_str()), 0);
+		std::cout << "\e[1;36mClient has sent all the information requiered to be log\e[0m" << std::endl; 
 	}
 	return ;
 }
@@ -48,4 +50,12 @@ void	send_error_code(unsigned int fd, std::string error_code, std::string nickna
 	std::string		msg;
 	msg = ":NiceIRC " + error_code + " " + nickname + " " + arg + " " + error_msg + "\r\n";
 	send(fd, msg.c_str(), msg.length(), 0);
+}
+
+void	colorMsg(std::string colorCode, char *msg)
+{
+	if (msg[strlen(msg) - 1] == '\n')
+		std::cout << colorCode << msg << "\e[0m" << std::endl;
+	else
+		std::cout << colorCode << msg << "\e[0m";
 }

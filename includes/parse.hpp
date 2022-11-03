@@ -33,13 +33,12 @@ class parse {
 		}
 
 		void	to_register(Server & serv, Client * Client) {
-			// std::cout << "Server starting to parse what the client has send" << std::endl;
 			std::string delim(" ");
 			for (size_t i = 0; i < tab.size(); i++) {
 				std::vector<std::string> line = split(tab[i], delim);
-				// for (size_t j = 0; j < line.size(); j++)
-				// 	std::cout << "{" << line[j] << "}" << std::endl;
-				if (line[0] == "NICK" && line.size() == 2)
+				if (line[0] == "CAP")
+					Client->irssi = true;
+				else if (line[0] == "NICK" && line.size() == 2)
 					cmdNick(serv, Client, line[1]);
 				else if (line[0] == "NICK" && line.size() == 1) {
 					std::string to_send = "431 " + Client->getNick() + " :No nickname given\r\n";
@@ -57,7 +56,7 @@ class parse {
 				if (Client->accepted == true) {
 					if (line[0] == "PING" && line.size() == 2) {
 						std::string	to_send = ":irc PONG :" + line[1] + "\r\n";
-						std::cout << "This is what I send to the PONG command : " << to_send << std::endl; 
+						colorMsg("\e[1;32m", (char *)to_send.c_str());
 						send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0); 
 					}
 					else if (line[0] == "MODE")
@@ -74,9 +73,6 @@ class parse {
 						cmdOper(serv, Client, line);
 					else if (line[0] == "kill")
 						cmdKill(serv, Client, line);
-					// else if (line[0] == "QUIT" && line.size() > 1) {
-					// 	cmdQuit(serv, client);
-					// }
 				}
 			}
 		}

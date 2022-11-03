@@ -186,10 +186,10 @@ class	Server {
 						{  
 							getpeername(sd , (struct sockaddr*)&address , \
 								(socklen_t*)&addrlen);  
-							printf("\e[0;34m[*] Host disconnected , ip %s , port %d \n\e[0m" , 
+							printf("\e[0;34m[-] Host disconnected , ip %s , port %d \n\e[0m" , 
 								inet_ntoa(address.sin_addr) , ntohs(address.sin_port));  
 							
-							close( sd ); 
+							close(sd); 
 							// Function to erase the client within the private attributs user 
 							deleteClient(sd);
 							client_socket[i] = 0;  
@@ -198,6 +198,8 @@ class	Server {
 						else {
 							buffer[valread] = '\0';
 							std::string tmp(buffer);
+							// std::string display = "What the server received : " + tmp;
+							colorMsg("\e[0;96m", (char *)display.c_str());
 							if (user[i]->histo.empty())
 								user[i]->histo = tmp;
 							if (user[i]->histo.find("\r\n") == std::string::npos) {

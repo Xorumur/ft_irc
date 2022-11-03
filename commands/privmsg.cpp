@@ -23,7 +23,10 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 		else if (to_send && to_send->isHere(client) == true) {
 			std::string msg = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 PRIVMSG " + to_send->getName() + " :";
 
-			msg += &line[2][1]; // Message
+			if (line[2][1] == ':')
+				msg += &line[2][1]; // Message
+			else
+				msg += line[2];
 			
 			if (line.size() > 3)
 				msg += " ";

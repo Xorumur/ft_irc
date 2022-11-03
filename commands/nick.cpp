@@ -14,7 +14,7 @@ void	cmdNick(Server & serv, Client * client, std::string nick) {
 	}
 	client->setNick(nick);
 	client->nick = true;
-	std::cout << "NICKNAME IMPLEMENTED" << std::endl;
+	std::cout << "\e[1;36mNickname set\e[0m" << std::endl;
 	is_Accepted(client);
 	return ;
 }

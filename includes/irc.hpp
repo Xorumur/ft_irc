@@ -26,7 +26,9 @@
 
 # include "except.hpp"
 
-std::vector<std::string> split (std::string s, std::string delimiter);
+/* Utils */
+std::vector<std::string>	split (std::string s, std::string delimiter);
+void						colorMsg(std::string colorCode, char *msg);
 
 class	Server;
 class	Client;
