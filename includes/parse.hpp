@@ -40,13 +40,21 @@ class parse {
 					cmdNick(serv, Client, line[1]);
 				else if (line[0] == "NICK" && line.size() == 1) {
 					std::string to_send = "431 " + Client->getNick() + " :No nickname given\r\n";
+					rplDisplay(to_send);
 					send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0);
 				}	
 				else if (line[0] == "USER" && line.size() >= 5)
 					cmdUser(serv, Client, line);
 				else if (line[0] == "USER" && line.size() <= 5) {
 					std::string to_send = "461 USER :Not enough parameters\r\n";
+					rplDisplay(to_send);
 					send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0); 
+				}
+				else if (line[0] == "PASS" && line.size() < 2) {
+					std::string rpl;
+					rpl = "461 PASS :Not enough parameters\r\n";
+					rplDisplay(rpl);
+					send(Client->getFd(), rpl.c_str(), rpl.size(), 0);
 				}
 				else if (line[0] == "PASS")
 					cmdPass(line[1], serv, Client);
@@ -54,7 +62,8 @@ class parse {
 				if (Client->accepted == true) {
 					if (line[0] == "PING" && line.size() == 2) {
 						std::string	to_send = ":irc PONG :" + line[1] + "\r\n";
-						colorMsg("\e[1;32m", (char *)to_send.c_str());
+						// colorMsg("\e[1;32m", (char *)to_send.c_str());
+						rplDisplay(to_send);
 						send(Client->getFd(), to_send.c_str(), strlen(to_send.c_str()), 0); 
 					}
 					else if (line[0] == "MODE")
@@ -71,6 +80,8 @@ class parse {
 						cmdOper(serv, Client, line);
 					else if (line[0] == "kill")
 						cmdKill(serv, Client, line);
+					else if (line[0] == "KICK")
+						cmdKick(serv, Client, line);
 				}
 			}
 		}

@@ -46,6 +46,7 @@ void	cmdMode(Server & serv, Client * client, std::vector<std::string> line) {
 		std::string errMsg;
 		errMsg = "666 " + client->getNick() + " :We do not handle client modes !\r\n";
 		// std::cout << "This is what I send for the mode command : " << errMsg << std::endl;
+		rplDisplay(errMsg);
 		send(client->getFd(), errMsg.c_str(), strlen(errMsg.c_str()), 0);
 	}
 	return ;

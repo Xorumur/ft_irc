@@ -16,7 +16,8 @@ SRCS =		main.cpp \
 			commands/part.cpp \
 			commands/topic.cpp \
 			commands/oper.cpp \
-			commands/kill.cpp
+			commands/kill.cpp \
+			commands/kick.cpp 
 
 OBJS =		$(SRCS:.cpp=.o)
 

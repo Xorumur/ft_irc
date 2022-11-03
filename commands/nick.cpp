@@ -8,7 +8,7 @@ void	cmdNick(Server & serv, Client * client, std::string nick) {
 			std::string ERR;
 			ERR = "433 * " + nick + N_ERROR + "\r\n";
 			send(client->getFd(), ERR.c_str(), strlen(ERR.c_str()), 0);
-			std::cout << "ERROR IN THE NICKNAME" << std::endl;
+			rplDisplay(ERR);
 			return ;
 		}
 	}

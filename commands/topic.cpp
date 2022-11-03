@@ -8,7 +8,7 @@ void	cmdTopic(Server & serv, Client * client, std::vector<std::string> arg) {
 		? RPL_NEEDMOREPARAMS
 		*/
 		rpl = "461 TOPIC :Not enough parameters\r\n";
-		std::cout << rpl << std::endl;
+		rplDisplay(rpl);
 		send(client->getFd(), rpl.c_str(), rpl.size(), 0);
 	}
 	else if (arg.size() == 2) {
@@ -18,7 +18,7 @@ void	cmdTopic(Server & serv, Client * client, std::vector<std::string> arg) {
 			* No such channel.
 			*/
 			rpl = "403 " + arg[1] + " :No such channel\r\n";
-			std::cout << rpl << std::endl;
+			rplDisplay(rpl);
 			send(client->getFd(), rpl.c_str(), rpl.size(), 0);
 		}
 		else if (chan->getTopic().empty()) {
@@ -26,7 +26,7 @@ void	cmdTopic(Server & serv, Client * client, std::vector<std::string> arg) {
 			* RPL_NOTOPIC
 			*/
 			rpl = "332 " + client->getNick() + " " + chan->getName() + " :No Topic set\r\n";
-			std::cout << rpl << std::endl;
+			rplDisplay(rpl);
 			send(client->getFd(), rpl.c_str(), rpl.size(), 0);
 		}
 		else if (chan->getTopic().empty() != 0) {
@@ -34,7 +34,7 @@ void	cmdTopic(Server & serv, Client * client, std::vector<std::string> arg) {
 			* RPL_TOPIC
 			*/
 			rpl = "332 " + client->getNick() + " " + chan->getName() + " " + chan->getTopic() + "\r\n";
-			std::cout << rpl << std::endl;
+			rplDisplay(rpl);
 			send(client->getFd(), rpl.c_str(), rpl.size(), 0);
 		}
 	}
@@ -45,7 +45,7 @@ void	cmdTopic(Server & serv, Client * client, std::vector<std::string> arg) {
 			* No such channel.
 			*/
 			rpl = "403 " + arg[1] + " :No such channel\r\n";
-			std::cout << rpl << std::endl;
+			rplDisplay(rpl);
 			send(client->getFd(), rpl.c_str(), rpl.size(), 0);
 		}
 		if (chan->isSuper(client)) {
@@ -67,8 +67,8 @@ void	cmdTopic(Server & serv, Client * client, std::vector<std::string> arg) {
 						topic += " ";
 				}
 				chan->setTopic(topic);
-				rpl = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 TOPIC " + chan->getName() + " :" + topic;
-				std::cout << rpl << std::endl;
+				rpl = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 TOPIC " + chan->getName() + " " + topic;
+				rplDisplay(rpl);
 				send(client->getFd(), rpl.c_str(), rpl.size(), 0);
 			}
 		}
@@ -77,7 +77,7 @@ void	cmdTopic(Server & serv, Client * client, std::vector<std::string> arg) {
 			! The client isn't a superUser.
 			*/
 			rpl = "482 " + chan->getName() + " :You're not channel operator\r\n";
-			std::cout << rpl << std::endl;
+			rplDisplay(rpl);
 			send(client->getFd(), rpl.c_str(), rpl.size(), 0);
 		}
 	}

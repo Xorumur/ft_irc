@@ -29,6 +29,7 @@
 /* Utils */
 std::vector<std::string>	split (std::string s, std::string delimiter);
 void						colorMsg(std::string colorCode, char *msg);
+void						rplDisplay(std::string rpl);
 
 class	Server;
 class	Client;
@@ -44,6 +45,7 @@ void	cmdPart(Server & serv, Client * client, std::vector<std::string> cmd);
 void	cmdTopic(Server & serv, Client * client, std::vector<std::string> arg);
 void	cmdOper(Server & serv, Client * client, std::vector<std::string> arg);
 void	cmdKill(Server & serv, Client * client, std::vector<std::string> arg);
+void	cmdKick(Server & serv, Client * client, std::vector<std::string> line);
 # include "Client.hpp"
 # include "Channel.hpp"
 # include "Server.hpp"

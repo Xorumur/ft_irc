@@ -4,28 +4,27 @@ void	cmdKill(Server & serv, Client * client, std::vector<std::string> arg) {
 	std::string rpl;
 	if (arg.size() < 2) {
 		rpl = ":math 461 " + client->getNick() + " KILL :Not enough parameters\r\n";
-		std::cout << rpl << std::endl;
 		send(client->getFd(), rpl.c_str(), rpl.size(), 0);
-		std::cout << rpl << std::endl;
+		rplDisplay(rpl);
 		return ;
 	}
 	Client * cl = serv.findClientByName(arg[1]);
 	if (!cl) {
 		rpl = ":math 401 " + client->getNick() + " " + arg[1] + "  :No such nick/channel\r\n";
 		send(client->getFd(), rpl.c_str(), rpl.size(), 0);
-		std::cout << rpl << std::endl;
+		rplDisplay(rpl);
 		return ;
 	}
 	else if (cl == client) {
 		rpl = ":math 401 " + client->getNick() + " " + arg[1] + "  :You can't kill yourself\r\n";
 		send(client->getFd(), rpl.c_str(), rpl.size(), 0);
-		std::cout << rpl << std::endl;
+		rplDisplay(rpl);
 		return ;
 	}
 	else if (client->op == false) {
 		rpl = ":math 481 " + client->getNick() + " :Permission Denied- You're not an IRC operator\r\n";
 		send(client->getFd(), rpl.c_str(), rpl.size(), 0);
-		std::cout << rpl << std::endl;
+		rplDisplay(rpl);
 		return ;
 	}
 	else {
@@ -33,7 +32,7 @@ void	cmdKill(Server & serv, Client * client, std::vector<std::string> arg) {
 		if (arg.size() == 3 && arg[2] != ":")
 			rpl += arg[2];
 		rpl += "\r\n";
-		std::cout << rpl << std::endl;
+		rplDisplay(rpl);
 		send(cl->getFd(), rpl.c_str(), rpl.size(), 0);
 		for (size_t i = 0; i < serv.Chan.size(); i++)
 			if (serv.Chan[i]->isMembers(cl)) {

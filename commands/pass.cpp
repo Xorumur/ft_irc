@@ -9,10 +9,10 @@ void	cmdPass(std::string pass, Server & serv, Client * client) {
 		std::cout << "\e[1;36mPassword set\e[0m" << std::endl;
 	}
 	else if (pass != serv.getPassword() && client->pass == true) {
-		client->pass = false;
-		client->setPwd(pass);
-		if (client->accepted == true)
-			client->accepted = false;
+		std::string rpl;
+		rpl = "462 :Unauthorized command (already registered)\r\n";
+		rplDisplay(rpl);
+		send(client->getFd(), rpl.c_str(), rpl.size(), 0);
 	}
 	is_Accepted(client);
 	return ;

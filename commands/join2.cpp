@@ -39,12 +39,14 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 	if (cmd.size() == 1) {
 		/* If there is only JOIN it miss some parameters */
 		errMsg = "461 JOIN :Not enough parameters\r\n";
+		rplDisplay(errMsg);
 		send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 		return ;
 	}
 	else if (cmd[1][0] != '#' && cmd[1][0] != '&') {
 		/* When you want to join a channel the name of the channel must start with a # or & */
 		errMsg = "476 JOIN :Bad Channel Mask\r\n";
+		rplDisplay(errMsg);
 		send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 		return ;
 	}
@@ -107,6 +109,7 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 				if (sizeK == 0) {
 					std::cout << "There is a key but client doesn't have send it" << std::endl;
 					errMsg = ": 475 " + _wtj->getName() + " :Cannot join channel (+k)\r\n";
+					rplDisplay(errMsg);
 					send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 				}
 				else if (sizeK != 0 && i < sizeK) {
@@ -114,6 +117,7 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 					if (keys[i] != _wtj->getPass()) {
 						std::cout << "The key of the channel is : " << _wtj->getPass() << ". But client as send : " << keys[i] << std::endl; 
 						errMsg = "475 " + _wtj->getName() + " :Cannot join channel (+k)\r\n";
+						rplDisplay(errMsg);
 						send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 					}
 					else if (keys[i] == _wtj->getPass()) {
@@ -124,6 +128,7 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 						/* There is a specific message to send to all the users of the channel that the client join */
 						std::string wlcMsg;
 						wlcMsg = client->getNick() + "!" + client->getUser() + "@127.0.0.1 JOIN " + newChann[i] + "\r\n";
+						
 						sendToChannel(wlcMsg, _wtj, client, true);
 						sendChannelInfo(_wtj, client);
 					}
