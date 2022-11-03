@@ -10,7 +10,7 @@ You can launch the server like this : ./ircserv [PORT] [PASSWORD].
 
 
 
-                             ![plot](./img/Launch.png)                             
+-----------------------------![plot](./img/Launch.png)-----------------------------
 
 You can use as a Client : 
 
