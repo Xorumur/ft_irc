@@ -16,3 +16,4 @@ You can use as a Client :
 
 							-irssi.
 		-netcat (like this : nc -c {The -c option add a \r\n at the end of the line you write}).
+								like : nc -c localhost 8888
