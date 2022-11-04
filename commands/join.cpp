@@ -8,15 +8,6 @@
 void	sendChannelInfo(Channel * chan, Client * client) {
 	std::string chanInfo;
 
-	// for (size_t i = 0; i < chan->members.size(); i++) {
-	// 	if (client->getNick() != chan->members[i]->getNick()) {
-	// 		chanInfo = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 JOIN " + chan->getName();
-	// 		rplDisplay(chanInfo);
-	// 		send(chan->members[i]->getFd(), chanInfo.c_str(), chanInfo.size(), 0);
-	// 		chanInfo.clear();
-	// 	}
-	// }
-
 	/* RPL_TOPIC */
 	chanInfo = "332 " + client->getNick() + " " + chan->getName() + " :No Topic set\r\n";
 	send(client->getFd(), chanInfo.c_str(), chanInfo.size(), 0);
@@ -51,13 +42,6 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 		send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 		return ;
 	}
-	else if (cmd[1][0] != '#' && cmd[1][0] != '&') {
-		/* When you want to join a channel the name of the channel must start with a # or & */
-		errMsg = "476 JOIN :Bad Channel Mask\r\n";
-		rplDisplay(errMsg);
-		send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
-		return ;
-	}
 	else if (cmd.size() == 2 && cmd[1][0] == '0')
 	{
 		/* In the RFC they that the '0' parameters must make the client leave all the channel where he is
@@ -67,6 +51,14 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 		client->setCurrChannelNull();
 		return;
 	}
+	else if (cmd[1][0] != '#' && cmd[1][0] != '&') {
+		/* When you want to join a channel the name of the channel must start with a # or & */
+		errMsg = "476 JOIN :Bad Channel Mask\r\n";
+		rplDisplay(errMsg);
+		send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
+		return ;
+	}
+	
 
 	/* The third argument of the command JOIN is the key (password of the Channel).
 	   Here I'll try to get it */
@@ -86,6 +78,11 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 	std::string delim = ",";
 	std::vector<std::string> newChann = split(cmd[1], delim);
 
+	std::string _Dis;
+	for (size_t i = 0; i < newChann.size(); i++) {
+		_Dis = "Join Channel name is " + newChann[i] + "\n";
+		colorMsg("\e[4;33m", (char *)_Dis.c_str());
+	}
 	/* _wtj means want to join, here we gonna search if the channel exist in the vector 
 	   of channel that we have in the serv, and if it does not exist,
 	   we will have to create one */
@@ -97,8 +94,9 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 			Channel  *to_add = new Channel(newChann[i]);
 			to_add->addSuper(client);
 			to_add->addMembers(client);
-			if (setK == true && i < keys.size()) {
-				std::cout << "Set " << keys[i] << " as pass" << std::endl;
+			if (setK == true && i < keys.size() - 1) {
+				std::string keyInfo = "Set " + keys[i] + " as pass for the Channel : " + to_add->getName();
+				colorMsg("\e[4;34m", (char *)keyInfo.c_str());
 				to_add->setPass(keys[i]);
 			}
 			serv.Chan.push_back(to_add);
@@ -122,16 +120,19 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 					rplDisplay(errMsg);
 					send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 				}
-				else if (sizeK != 0 && i < sizeK) {
-					std::cout << "Client has send key as : " << keys[i] << std::endl;
+				else if (sizeK != 0 && i < sizeK - 1) {
+					std::string keyInfo = "Client has send key as : " + keys[i] + "\n";
+					colorMsg("\e[4;35m", (char *)keyInfo.c_str());
 					if (keys[i] != _wtj->getPass()) {
-						std::cout << "The key of the channel is : " << _wtj->getPass() << ". But client as send : " << keys[i] << std::endl; 
+						std::string keyInfo = "Client has sent the wrong key\n";
+						colorMsg("\e[4;35m", (char *)keyInfo.c_str());
 						errMsg = "475 " + client->getNick() + " " + _wtj->getName() + " :Cannot join channel (+k)\r\n";
 						rplDisplay(errMsg);
 						send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 					}
 					else if (keys[i] == _wtj->getPass()) {
-						std::cout << "The key the client has send is the key of the channel so I accept him into this channel." << std::endl; 
+						std::string keyInfo = "Client has sent the right key\n";
+						colorMsg("\e[4;35m", (char *)keyInfo.c_str());
 						_wtj->members.push_back(client);
 						client->setCurrChannel(_wtj);
 
@@ -145,13 +146,14 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 				}
 			}
 			else {
-				std::cout << "No key" << std::endl;
+				rplDisplay("No key");
 				_wtj->members.push_back(client);
 				client->setCurrChannel(_wtj);
 
 				/* There is a specific message to send to all the users of the channel that the client join */
 				std::string wlcMsg;
-				wlcMsg = client->getNick() + "!" + client->getUser() + "@127.0.0.1 JOIN " + newChann[i] + "\r\n";
+				wlcMsg = ":irc " + client->getNick() + "!" + client->getUser() + "@127.0.0.1 JOIN " + newChann[i] + "\r\n";
+				rplDisplay(wlcMsg);
 				sendToChannel(wlcMsg, _wtj, client, true); 
 				sendChannelInfo(_wtj, client);
 			}

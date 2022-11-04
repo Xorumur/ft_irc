@@ -93,17 +93,8 @@ class Channel {
 		}
 
 		void	deleteClient(Client * client) {
-			std::vector<Client *>::iterator it = members.begin();
-			for (size_t i = 0; i < members.size(); i++, it++) {
-				if (members[i]->getNick() == client->getNick()) {
-					members.erase(it);
-				}
-			}
-			it = superUser.begin();
-			for (size_t i = 0; i < superUser.size(); i++, it++) {
-				if (superUser[i]->getNick() == client->getNick())
-					superUser.erase(it);
-			}
+			deleteMembers(client);
+			deleteSuper(client);
 		}
 
 		std::string getTopic(void) {
@@ -117,10 +108,4 @@ class Channel {
 		void		clearTopic(void) {
 			topic.clear();
 		}
-
-		// void	sendToMembers(std::string msg) {
-		// 	for (size_t i = 0; i < members.size(); i++) {
-				
-		// 	}
-		// }
 };

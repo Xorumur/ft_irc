@@ -32,7 +32,7 @@ void	cmdPart(Server & serv, Client * client, std::vector<std::string> cmd) {
 			/* If the client belong to the channel I leave it */
 			if (to_leave->isMembers(client) == true || to_leave->isSuper(client) == true) {
 				errMsg = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 PART";
-				errMsg += " " + Chann + " ";
+				errMsg += " :" + Chann + " ";
 				if (cmd.size() > 2) {
 					/* If a the client leave with a message */
 					std::string partMsg;

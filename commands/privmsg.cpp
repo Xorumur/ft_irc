@@ -15,7 +15,7 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 		std::cout << testClient << std::endl;
 		if (!to_send && testClient == false) {
 			/* If the channel where the client want to send his message does not exists */
-			errMsg = "404 " + client->getNick()+ " " + " :No such nick/channel\r\n";
+			errMsg = "404 " + client->getNick() + " " + line[1] + " :No such nick/channel\r\n";
 			send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 			std::cout << errMsg << std::endl;
 			return ;
@@ -41,7 +41,7 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 			return ;
 		}
 		else {
-			errMsg = "404 " + to_send->getName() + "  :Cannot send to channel\r\n";
+			errMsg = "404 " + client->getNick() + " " + to_send->getName() + "  :Cannot send to channel\r\n";
 			std::cout << errMsg << std::endl;
 			send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 		}
@@ -49,7 +49,7 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 	else {
 		bool exist = serv.clientExist(line[1]);
 		if (exist == false) {
-			errMsg = "401 " + line[1] + " :No such nick/channel\r\n";
+			errMsg = "401 " + client->getNick() + " " + line[1] + " :No such nick/channel\r\n";
 			send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 			std::cout << errMsg << std::endl;
 			return ;

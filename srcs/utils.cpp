@@ -24,8 +24,8 @@ void	is_Accepted(Client * client) {
 		client->accepted = true;
 		// Welcome = "001 " + client->getNick() + " :Welcome to the Internet Relay Network ";
 		// Welcome += client->getNick() + "!" + client->getUser() + "@127.0.0.1\r\n";
-		Welcome = ":localhost 001 " + client->getNick() + "\r\n" + "\"Welcome to the Internet Relay Chat Network " + client->getNick() + "!" + client->getUser() + "@localhost" + "\"" + "\r\n";
-		// std::cout << Welcome << std::endl;
+		Welcome = ":localhost 001 " + client->getNick() + " Welcome to the Internet Relay Chat Network " + client->getNick() + "!" + client->getUser() + "@localhost" + "\r\n";
+		std::cout << Welcome << std::endl;
 		std::cout << "\e[1;36mClient has sent all the information requiered to be log\e[0m" << std::endl; 
 		std::cout << "\e[1;95mWelcome message send successfuly\e[0m" << std::endl; 
 		send(client->getFd(), Welcome.c_str(), strlen(Welcome.c_str()), 0);
@@ -35,7 +35,6 @@ void	is_Accepted(Client * client) {
 
 /* Here I send the message to all the client who belong to this channel */
 void	sendToChannel(std::string msg, Channel * chan, Client * client, bool himself) {
-	// std::cout << "Size of vector channel on serv : " << chan->members.size() << std::endl;
 	for (size_t i = 0; i < chan->members.size(); i++) {
 		if (chan->members[i]->getNick() == client->getNick() && himself == false)
 			;
