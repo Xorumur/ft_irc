@@ -48,4 +48,12 @@ count:
 run :	re
 		./ircserv 8888 pass
 
+l:
+		./ircserv 8888 pass
+
+client:
+		irssi
+nc:
+		nc -c localhost 8888
+
 .PHONY:		re clean fclean all
