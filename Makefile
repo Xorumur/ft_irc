@@ -20,6 +20,13 @@ SRCS =		main.cpp \
 			commands/kick.cpp \
 			commands/names.cpp \
 
+INC = 		includes/Channel.hpp \
+			includes/Client.hpp \
+			includes/parse.hpp \
+			includes/Server.hpp \
+			includes/except.hpp \
+			includes/irc.hpp \
+
 OBJS =		$(SRCS:.cpp=.o)
 
 all:		$(NAME)
@@ -34,5 +41,11 @@ fclean:		clean
 			rm -rf $(NAME)
 
 re:			fclean all
+
+count: 
+		wc -l $(SRCS) $(INC)
+
+run :	re
+		./ircserv 8888 pass
 
 .PHONY:		re clean fclean all
