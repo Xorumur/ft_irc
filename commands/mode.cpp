@@ -44,7 +44,7 @@ void	cmdMode(Server & serv, Client * client, std::vector<std::string> line) {
 	// We do not have to handle this mode command for the client.
 	if (line[1][0] != '#' && line[1][0] != '&') {
 		std::string errMsg;
-		errMsg = "666 " + client->getNick() + " :We do not handle client modes !\r\n";
+		errMsg = "666 " + client->getNick() + " MODE :We do not handle client modes !\r\n";
 		// std::cout << "This is what I send for the mode command : " << errMsg << std::endl;
 		rplDisplay(errMsg);
 		send(client->getFd(), errMsg.c_str(), strlen(errMsg.c_str()), 0);

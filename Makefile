@@ -18,6 +18,7 @@ SRCS =		main.cpp \
 			commands/oper.cpp \
 			commands/kill.cpp \
 			commands/kick.cpp \
+			commands/names.cpp \
 
 OBJS =		$(SRCS:.cpp=.o)
 

@@ -63,3 +63,4 @@ void	is_Accepted(Client * client);
 
 /*  Channel Interaction */
 void	sendToChannel(std::string msg, Channel * chan, Client * client, bool himself);
+void	sendChannelInfo(Channel * chan, Client * client);

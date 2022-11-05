@@ -71,6 +71,11 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 		keys  = split(cmd[2], d);
 		setK = true;
 		sizeK = keys.size();
+		std::string dis;
+		for (size_t i = 0; i < keys.size(); i++) {
+			dis = "Join Channel name is " + keys[i] + "\n";
+			colorMsg("\e[4;33m", (char *)dis.c_str());
+		}
 	}
 
 	/* Here I split the arg with ',' because you can join multiples channels with JOIN like :
@@ -94,17 +99,17 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 			Channel  *to_add = new Channel(newChann[i]);
 			to_add->addSuper(client);
 			to_add->addMembers(client);
-			if (setK == true && i < keys.size() - 1) {
+			if (setK == true && i < keys.size()) {
 				std::string keyInfo = "Set " + keys[i] + " as pass for the Channel : " + to_add->getName();
 				colorMsg("\e[4;34m", (char *)keyInfo.c_str());
-				to_add->setPass(keys[i]);
+				if (keys[i] != "x")
+					to_add->setPass(keys[i]);
 			}
 			serv.Chan.push_back(to_add);
 			client->setCurrChannel(to_add);
 			sendChannelInfo(to_add, client);
 			if (newChann.size() == 1)
 				return ;
-			std::cout << "Size of chann : " << serv.Chan.size() << std::endl;
 			/* There is a specific message to send to all the users of the channel that the client join */
 			// std::string wlcMsg;
 			// wlcMsg = client->getNick() + "!" + client->getUser() + "@127.0.0.1 JOIN " + newChann[i] + "\r\n";
@@ -120,7 +125,7 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 					rplDisplay(errMsg);
 					send(client->getFd(), errMsg.c_str(), errMsg.size(), 0);
 				}
-				else if (sizeK != 0 && i < sizeK - 1) {
+				else if (sizeK != 0 && i < sizeK) {
 					std::string keyInfo = "Client has send key as : " + keys[i] + "\n";
 					colorMsg("\e[4;35m", (char *)keyInfo.c_str());
 					if (keys[i] != _wtj->getPass()) {
@@ -159,7 +164,4 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 			}
 		}
 	}
-	if (client->getCurr())
-		std::cout << "This user belong to the channel : " << client->getCurr()->getName() << std::endl;
-	return ;
 }

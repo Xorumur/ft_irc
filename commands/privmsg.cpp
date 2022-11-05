@@ -4,13 +4,11 @@
 void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 	std::string errMsg;
 
-	std::cout << "Server to send PIRVMSG = " << line[1] << std::endl;
 	/* If there is a # or a & it means a channel, otherwise it means a user */
 	if (line[1].find("#") == 0 || line[1].find("&") == 0)
 	{
 		std::string Chann(line[1]);
 		Channel *to_send = serv.findChannelByName(Chann);
-		std::cout << "Want to chat in the " << to_send->getName() << " channel" << std::endl;
 		bool testClient = serv.clientExist(line[1]);
 		std::cout << testClient << std::endl;
 		if (!to_send && testClient == false) {
@@ -36,7 +34,6 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 					msg += " ";
 			}
 			msg += "\r\n";
-			std::cout << "Prototype of what I send to the client : " << msg << std::endl;
 			sendToChannel(msg, to_send, client, false);
 			return ;
 		}

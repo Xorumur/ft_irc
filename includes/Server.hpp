@@ -201,14 +201,21 @@ class	Server {
 						else {
 							buffer[valread] = '\0';
 							std::string tmp(buffer);
-							std::string display = "What the server received : " + tmp;
+							std::string display = "What the server received : " + tmp + "\n";
 							colorMsg("\e[0;96m", (char *)display.c_str());
 							if (user[i]->histo.empty())
 								user[i]->histo = tmp;
-							if (user[i]->histo.find("\r\n") == std::string::npos) {
+							else if (user[i]->histo.size() >= 2 && user[i]->histo[user[i]->histo.size() - 1] != '\n' && user[i]->histo[user[i]->histo.size() - 2] != '\r') {
+								user[i]->histo += tmp;
+								for (size_t j = 0; j < user[i]->histo.size(); j++)
+									std::cout << "{" << (int)user[i]->histo[j] << "}" << std::endl;
+								std::cout << "Histo : " << user[i]->histo << std::endl;
+							}
+							else if (user[i]->histo.size() < 2) {
 								user[i]->histo += tmp;
 							}
-							else {
+							if (user[i]->histo.size() >= 2 && user[i]->histo[user[i]->histo.size() - 1] == '\n' && user[i]->histo[user[i]->histo.size() - 2] == '\r') {
+								std::cout << "Exec with this as arg : " << user[i]->histo << std::endl;
 								parse Parser((char *)user[i]->histo.c_str());
 								Parser.to_register(*this, user[i]);
 								user[i]->histo.clear();
