@@ -1,6 +1,5 @@
 #include "../includes/irc.hpp"
 
-
 /*  Command: JOIN
    Parameters: ( <channel> *( "," <channel> ) [ <key> *( "," <key> ) ] ) / "0"
 */
@@ -143,7 +142,7 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 
 						/* There is a specific message to send to all the users of the channel that the client join */
 						std::string wlcMsg;
-						wlcMsg = ":irc " + client->getNick() + "!" + client->getUser() + "@127.0.0.1 JOIN " + newChann[i] + "\r\n";
+						wlcMsg = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 JOIN :" + newChann[i] + "\r\n";
 						
 						sendToChannel(wlcMsg, _wtj, client, true);
 						sendChannelInfo(_wtj, client);
@@ -157,7 +156,7 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 
 				/* There is a specific message to send to all the users of the channel that the client join */
 				std::string wlcMsg;
-				wlcMsg = ":irc " + client->getNick() + "!" + client->getUser() + "@127.0.0.1 JOIN " + newChann[i] + "\r\n";
+				wlcMsg = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 JOIN :" + newChann[i] + "\r\n";
 				rplDisplay(wlcMsg);
 				sendToChannel(wlcMsg, _wtj, client, true); 
 				sendChannelInfo(_wtj, client);

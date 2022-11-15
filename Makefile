@@ -31,14 +31,15 @@ OBJS =		$(SRCS:.cpp=.o)
 
 all:		$(NAME)
 
-$(NAME):	$(OBJS)
-			$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+$(NAME):	$(OBJS) 
+			@$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+			
 
 clean:	
-			rm -rf $(OBJS)
+			@rm -rf $(OBJS)
 
 fclean:		clean
-			rm -rf $(NAME)
+			@rm -rf $(NAME)
 
 re:			fclean all
 
@@ -51,7 +52,7 @@ run :	re
 l:
 		./ircserv 8888 pass
 
-client:
+irs:
 		irssi
 nc:
 		nc -c localhost 8888

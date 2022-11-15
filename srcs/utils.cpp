@@ -39,8 +39,8 @@ void	sendToChannel(std::string msg, Channel * chan, Client * client, bool himsel
 		if (chan->members[i]->getNick() == client->getNick() && himself == false)
 			;
 		else {
-			msg = "Sending " + infoMsg + " to : " + chan->members[i]->getNick() + "\n";
-			rplDisplay(infoMsg);
+			infoMsg = "Sending " + infoMsg + " to : " + chan->members[i]->getNick() + "\n";
+			rplDisplay(msg);
 			send(chan->members[i]->getFd(), msg.c_str(), msg.size(), 0);
 			infoMsg.clear();
 		}
