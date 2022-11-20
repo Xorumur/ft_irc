@@ -49,11 +49,6 @@ count:
 run :	re
 		./ircserv 8888 pass
 
-l:
-		./ircserv 8888 pass
-
-irs:
-		irssi
 nc:
 		nc -c localhost 8888
 

@@ -99,7 +99,7 @@ void	cmdJoin(Server & serv, Client * client, std::vector<std::string> cmd) {
 			to_add->addSuper(client);
 			to_add->addMembers(client);
 			if (setK == true && i < keys.size()) {
-				std::string keyInfo = "Set " + keys[i] + " as pass for the Channel : " + to_add->getName();
+				std::string keyInfo = "Set " + keys[i] + " as pass for the Channel : " + to_add->getName() + "\r\n";
 				colorMsg("\e[4;34m", (char *)keyInfo.c_str());
 				if (keys[i] != "x")
 					to_add->setPass(keys[i]);

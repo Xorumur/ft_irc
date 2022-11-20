@@ -67,10 +67,9 @@ void	cmdTopic(Server & serv, Client * client, std::vector<std::string> arg) {
 						topic += " ";
 				}
 				chan->setTopic(topic);
-				rpl = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 TOPIC " + chan->getName() + " " + topic;
-				rplDisplay(rpl);
+				rpl = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 TOPIC " + chan->getName() + " " + topic + "\r\n";
+				// rplDisplay(rpl);
 				sendToChannel(rpl, chan, client, true);
-				// send(client->getFd(), rpl.c_str(), rpl.size(), 0);
 			}
 		}
 		else {

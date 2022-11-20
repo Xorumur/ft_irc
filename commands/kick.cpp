@@ -53,17 +53,24 @@ void	cmdKick(Server & serv, Client * client, std::vector<std::string> line) {
 				k += line[a];
                 k += " ";
 			}
-			error = "KICK " + line[1] + " " + line[2] + " " + k;
+			error = "KICK " + line[1] + " " + line[2] + " " + k + "\r\n";
 		}
 		rplDisplay(error);
-		send(client->getFd(), error.c_str(), error.length(), 0);
+		/* Make the client kick part the channel */
+		// Client *to_kick = serv.findClientByName(line[2]);
+		// std::vector<std::string>	arg;
+		// arg.push_back("PART");
+		// arg.push_back(serv.findChannelByName(line[1])->getName());
+		// for (size_t i = 0; i < arg.size(); i++)
+		// 	std::cout << arg[i] << std::endl;
+		// cmdPart(serv, to_kick, arg);
+
+		// send(client->getFd(), error.c_str(), error.length(), 0);
+		sendToChannel(error, serv.findChannelByName(line[1]), client, true);
 		Channel * chane = serv.findChannelByName(line[1]);
 		Client * del = serv.findClientByName(line[2]);
 		if (del->getCurr() == chane)
 			del->setCurrChannelNull();
 		chane->deleteMembers(del);
-		// serv.findChannelByName(line[1])->deleteMembers(serv.findClientByName(line[2]));
-		// serv.findClientByName(line[2])->setCurrChannelNull();
-			//if(serv.findChannelByName(line[1])->isSuper(serv.findClientByName(line[2]))
 	}
 }

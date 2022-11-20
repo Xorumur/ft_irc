@@ -22,7 +22,7 @@ void	cmdPrivMsg(Server & serv, Client * client, std::vector<std::string> line) {
 			std::string msg = ":" + client->getNick() + "!" + client->getUser() + "@127.0.0.1 PRIVMSG " + to_send->getName() + " :";
 
 			if (line[2].find("bot") != std::string::npos) {
-				msg += "[BOT] : Avalaible commands are : join, part, pirvmsg, kill, kick, pass, part, nick, user, topic, oper, names :)\r\n";
+				msg += "[BOT] : Avalaible commands are : JOIN::PART::PRIVMSG::KILL::KICK::PASS::PART::NICK::USER::TOPIC::OPER::NAMES\r\n";
 				send(client->getFd(), msg.c_str(), msg.size(), 0);
 				return ;
 			}
